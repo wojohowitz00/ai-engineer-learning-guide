@@ -6,7 +6,7 @@ import StudyBuddy from "./components/StudyBuddy";
 import { 
   Sparkles, Search, GraduationCap, Award, BookMarked, 
   BookOpen, ChevronRight, CheckCircle2, RefreshCw, 
-  BookmarkCheck, ExternalLink, Moon, Sun, Info, Calendar, Terminal
+  BookmarkCheck, ExternalLink, Moon, Sun, Info, Calendar, Terminal, Lock
 } from "lucide-react";
 
 const LOCAL_STORAGE_KEY = "ai_engineer_roadmap_progress";
@@ -182,7 +182,7 @@ export default function App() {
             </h1>
             <p className="text-sm md:text-base text-neutral-600 max-w-3xl leading-relaxed">
               Transition from classic Data Science to production-style AI Engineering. Learn structured projects, prompt engineering, agent construction, production backends, robust RAG systems, evaluations, and mock-interview practices. 
-              All featured resources are <strong className="text-[#1A1A1A] font-bold underline underline-offset-4 decoration-[#3E5C76]">completely free</strong>.
+              Nearly every featured resource is <strong className="text-[#1A1A1A] font-bold underline underline-offset-4 decoration-[#3E5C76]">completely free</strong> — the handful of membership-gated picks are marked with a paywall badge, and each sits alongside a free alternative.
             </p>
           </div>
 
@@ -192,7 +192,7 @@ export default function App() {
               <div className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-60 mb-1">Curated Resources</div>
               <div className="flex gap-2">
                 <span className="px-3 py-1 bg-[#1A1A1A] text-white text-[10px] font-bold tracking-wider">FREE ACCESS</span>
-                <span className="px-3 py-1 border border-[#1A1A1A] text-[10px] font-bold italic">NO PAYWALLS</span>
+                <span className="px-3 py-1 border border-[#1A1A1A] text-[10px] font-bold italic">PAYWALLS FLAGGED</span>
               </div>
             </div>
             <button
@@ -410,8 +410,14 @@ export default function App() {
 
                         {/* Resource meta details */}
                         <div className="space-y-2">
-                          <span className="text-xs font-mono font-semibold text-[#1A1A1A]/50 tracking-wider">
+                          <span className="flex items-center gap-1.5 text-xs font-mono font-semibold text-[#1A1A1A]/50 tracking-wider">
                             {resource.platform} ({resource.type})
+                            {resource.paywall && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 border border-amber-800 text-amber-900 text-[9px] font-bold uppercase tracking-wider rounded-none">
+                                <Lock className="w-2.5 h-2.5" />
+                                Paywall
+                              </span>
+                            )}
                           </span>
                           <h4 className="text-lg font-serif font-bold text-[#1A1A1A] leading-snug">
                             {resource.title}

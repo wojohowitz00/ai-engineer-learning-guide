@@ -28,7 +28,7 @@ export const roadmapData: Step[] = [
             title: "Anatomy of a Scalable Python Project (FastAPI)",
             url: "https://www.youtube.com/watch?v=Af6Zr0tNNdE",
             type: "video",
-            platform: "YouTube",
+            platform: "ArjanCodes (YouTube)",
             description: "Shows a clean folder structure, .env config, centralized logging, and tests for a production-style project."
           },
           {
@@ -37,6 +37,13 @@ export const roadmapData: Step[] = [
             type: "video",
             platform: "YouTube",
             description: "Beginner-friendly overview of organizing code into modules/directories beyond single-file scripts."
+          },
+          {
+            title: "Packaging Python Projects",
+            url: "https://packaging.python.org/en/latest/tutorials/packaging-projects/",
+            type: "docs",
+            platform: "PyPA (Python Packaging Authority)",
+            description: "The official, current reference for src/ layout and pyproject.toml — covers Hatchling, setuptools, and uv-build backends."
           }
         ]
       },
@@ -70,7 +77,15 @@ export const roadmapData: Step[] = [
             url: "https://realpython.com/courses/python-basics-modules-packages/",
             type: "course",
             platform: "Real Python",
-            description: "A 25-lesson video course with exercises on imports and package structure."
+            description: "A 25-lesson video course with exercises on imports and package structure. Video courses require a Real Python membership.",
+            paywall: true
+          },
+          {
+            title: "The Python Tutorial — 9. Classes",
+            url: "https://docs.python.org/3/tutorial/classes.html",
+            type: "docs",
+            platform: "Python Docs",
+            description: "Authoritative, free coverage of class definition, inheritance, and scoping/namespaces from the official Python tutorial."
           }
         ]
       },
@@ -165,14 +180,30 @@ export const roadmapData: Step[] = [
             url: "https://realpython.com/videos/using-env-file/",
             type: "video",
             platform: "Real Python",
-            description: "Securely managing API keys/secrets with python-dotenv."
+            description: "Securely managing API keys/secrets with python-dotenv. Video lessons require a Real Python membership.",
+            paywall: true
           },
           {
             title: "Testing Your Code With pytest",
             url: "https://realpython.com/courses/testing-your-code-with-pytest/",
             type: "course",
             platform: "Real Python",
-            description: "A guided 6-lesson video course reinforcing pytest fundamentals."
+            description: "A guided 6-lesson video course reinforcing pytest fundamentals. Video courses require a Real Python membership.",
+            paywall: true
+          },
+          {
+            title: "pytest: Get Started",
+            url: "https://docs.pytest.org/en/stable/getting-started.html",
+            type: "docs",
+            platform: "pytest Docs",
+            description: "The official, free quick-start: install, first test, assertions, and grouping tests."
+          },
+          {
+            title: "Logging HOWTO",
+            url: "https://docs.python.org/3/howto/logging.html",
+            type: "docs",
+            platform: "Python Docs",
+            description: "Official free guide to loggers, handlers, levels, and formatters."
           }
         ]
       }
@@ -189,7 +220,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Structured Outputs — OpenAI API Guide",
-            url: "https://platform.openai.com/docs/guides/structured-outputs",
+            url: "https://developers.openai.com/api/docs/guides/structured-outputs",
             type: "docs",
             platform: "OpenAI Docs",
             description: "Forcing responses into a strict JSON Schema, including Pydantic integration."
@@ -248,6 +279,13 @@ export const roadmapData: Step[] = [
             type: "video",
             platform: "freeCodeCamp (YouTube)",
             description: "Full tutorial on prompting mindset and optimization workflows."
+          },
+          {
+            title: "Prompt Engineering (official guide)",
+            url: "https://developers.openai.com/api/docs/guides/prompt-engineering",
+            type: "docs",
+            platform: "OpenAI Docs",
+            description: "Message roles, few-shot, RAG, and how prompting differs for reasoning vs. GPT models — always free and current."
           }
         ]
       },
@@ -316,6 +354,13 @@ export const roadmapData: Step[] = [
             type: "blog",
             platform: "Sundeep Teki",
             description: "Framework-style guide covering RAG and agentic patterns."
+          },
+          {
+            title: "Context Engineering for Agents",
+            url: "https://www.langchain.com/blog/context-engineering-for-agents",
+            type: "blog",
+            platform: "LangChain",
+            description: "The widely cited write/select/compress/isolate framework — an authoritative complement to the Anthropic post."
           }
         ]
       }
@@ -387,7 +432,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Pydantic Official Documentation",
-            url: "https://docs.pydantic.dev/",
+            url: "https://pydantic.dev/docs/",
             type: "docs",
             platform: "Pydantic Docs",
             description: "Official reference and documentation."
@@ -425,6 +470,13 @@ export const roadmapData: Step[] = [
             type: "tutorial",
             platform: "KDnuggets",
             description: "A friendly high-level look at basic Docker terminology and commands."
+          },
+          {
+            title: "Python language-specific guide",
+            url: "https://docs.docker.com/guides/python/",
+            type: "docs",
+            platform: "Docker Docs",
+            description: "Official, current guide: containerize → develop → test → CI for a Python app, fully free."
           }
         ]
       },
@@ -526,7 +578,15 @@ export const roadmapData: Step[] = [
             url: "https://www.deeplearning.ai/courses/retrieval-augmented-generation",
             type: "course",
             platform: "DeepLearning.AI",
-            description: "Architecture, retrieval methods, chunking, evaluation. (Free to audit; certificate is paid)."
+            description: "26-hour full course: architecture, retrieval methods, chunking, evaluation. Only Module 1 is a free preview; full access requires paid enrollment.",
+            paywall: true
+          },
+          {
+            title: "Building and Evaluating Advanced RAG Applications",
+            url: "https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/",
+            type: "course",
+            platform: "DeepLearning.AI",
+            description: "Free ~2-hour short course by Jerry Liu (LlamaIndex CEO) on advanced retrieval and RAG evaluation."
           },
           {
             title: "Learn RAG & MCP Fundamentals",
@@ -577,7 +637,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Vector embeddings (Embeddings guide)",
-            url: "https://platform.openai.com/docs/guides/embeddings",
+            url: "https://developers.openai.com/api/docs/guides/embeddings",
             type: "docs",
             platform: "OpenAI Docs",
             description: "How to call the embeddings API, model choice, dimensions parameter."
@@ -602,6 +662,13 @@ export const roadmapData: Step[] = [
             type: "video",
             platform: "TensorTeach (YouTube)",
             description: "Encoder-only transformers, contrastive learning, tokenization, pooling."
+          },
+          {
+            title: "Sentence Transformers (SBERT) Documentation",
+            url: "https://www.sbert.net/",
+            type: "docs",
+            platform: "SBERT Docs",
+            description: "The canonical open-source reference for local embedding models: semantic search, retrieve-and-rerank, cross-encoders, fine-tuning."
           }
         ]
       },
@@ -628,7 +695,14 @@ export const roadmapData: Step[] = [
             url: "https://www.datacamp.com/tutorial/mastering-vector-databases-with-pinecone-tutorial",
             type: "tutorial",
             platform: "DataCamp",
-            description: "Step-by-step introduction to initializing, seeding, and querying index endpoints."
+            description: "Step-by-step introduction to vector DB concepts. Caution: from 2023 — its code uses the pre-v3 pinecone.init() API that no longer runs; read for concepts, use the official quickstart for working code."
+          },
+          {
+            title: "Pinecone Quickstart",
+            url: "https://docs.pinecone.io/guides/get-started/quickstart",
+            type: "docs",
+            platform: "Pinecone Docs",
+            description: "Official quickstart with current SDK patterns (Pinecone class, serverless indexes) and a free Starter tier."
           }
         ]
       },
@@ -733,11 +807,11 @@ export const roadmapData: Step[] = [
             description: "Best practices and strategies for building target evaluation criteria."
           },
           {
-            title: "Getting Started with OpenAI Evals",
-            url: "https://developers.openai.com/cookbook/examples/evaluation/getting_started_with_openai_evals",
+            title: "Promptfoo: Getting Started",
+            url: "https://www.promptfoo.dev/docs/intro/",
             type: "docs",
-            platform: "OpenAI Cookbook",
-            description: "Building an eval dataset in JSONL and running it with python framework."
+            platform: "Promptfoo Docs",
+            description: "Open-source, vendor-neutral CLI/library for declarative LLM test cases and regression evals in CI. (Replaces the deprecated OpenAI Evals framework, whose hosted successor shuts down Nov 2026.)"
           }
         ]
       },
@@ -805,7 +879,21 @@ export const roadmapData: Step[] = [
             url: "https://guardrailsai.com/blog/validate-llm-responses-real-time",
             type: "blog",
             platform: "Guardrails AI",
-            description: "Ensuring output compliance by wrapping prompt handlers."
+            description: "Ensuring output compliance by wrapping prompt handlers. From Jan 2024 — treat as background; see the current docs for up-to-date APIs."
+          },
+          {
+            title: "OWASP Top 10 for LLM Applications (2025)",
+            url: "https://genai.owasp.org/llm-top-10/",
+            type: "docs",
+            platform: "OWASP",
+            description: "The authoritative, framework-neutral standard for prompt injection (LLM01), sensitive-information disclosure (LLM02), and the rest of the LLM risk landscape."
+          },
+          {
+            title: "Guardrails AI Official Documentation",
+            url: "https://www.guardrailsai.com/docs",
+            type: "docs",
+            platform: "Guardrails AI Docs",
+            description: "Current docs for Guards, validators, and the Guardrails Hub — the up-to-date counterpart to the 2024-era course and blog post."
           }
         ]
       }
@@ -907,7 +995,7 @@ export const roadmapData: Step[] = [
             url: "https://www.freecodecamp.org/news/how-to-build-a-fullstack-authentication-system-with-react-express-mongodb-heroku-and-netlify/",
             type: "tutorial",
             platform: "freeCodeCamp",
-            description: "Focused specifically on the full-stack user authentication layer."
+            description: "Focused specifically on the full-stack user authentication layer (bcrypt, JWT, protected routes). Note: its Heroku free-tier deployment section is defunct (tier discontinued 2022) — deploy to Render/Railway instead."
           },
           {
             title: "Building a Full-Stack Chatbot App | React + Node.js + MongoDB",
@@ -915,6 +1003,13 @@ export const roadmapData: Step[] = [
             type: "video",
             platform: "YouTube",
             description: "Complete database integration and client message rendering tutorial."
+          },
+          {
+            title: "Vercel AI Chatbot (template)",
+            url: "https://github.com/vercel/ai-chatbot",
+            type: "repo",
+            platform: "GitHub",
+            description: "Production-grade LLM-native full-stack reference: Next.js + AI SDK token streaming, Auth.js authentication, Postgres chat-history persistence, multi-provider models."
           }
         ]
       },

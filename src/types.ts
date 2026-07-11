@@ -4,6 +4,8 @@ export interface Resource {
   type: 'video' | 'tutorial' | 'course' | 'docs' | 'blog' | 'repo';
   platform: string;
   description: string;
+  /** Requires paid membership/enrollment for the described content. Shown as a badge in the UI. */
+  paywall?: boolean;
 }
 
 export interface Topic {

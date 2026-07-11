@@ -1,9 +1,9 @@
 import React from "react";
 import { Step, Topic, Resource, UserProgress } from "../types";
-import { 
-  CheckCircle2, Bookmark, BookmarkCheck, ExternalLink, 
-  Sparkles, Video, BookOpen, GraduationCap, Code, 
-  FileText, Award, HelpCircle
+import {
+  CheckCircle2, Bookmark, BookmarkCheck, ExternalLink,
+  Sparkles, Video, BookOpen, GraduationCap, Code,
+  FileText, Award, HelpCircle, Lock
 } from "lucide-react";
 
 interface RoadmapCardProps {
@@ -161,6 +161,12 @@ export default function RoadmapCard({
                           <span className="flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A]/60 font-mono">
                             {getResourceIcon(resource.type)}
                             {resource.platform}
+                            {resource.paywall && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 border border-amber-800 text-amber-900 text-[9px] font-bold uppercase tracking-wider rounded-none">
+                                <Lock className="w-2.5 h-2.5" />
+                                Paywall
+                              </span>
+                            )}
                           </span>
                           
                           {/* Bookmark Toggle Button */}
