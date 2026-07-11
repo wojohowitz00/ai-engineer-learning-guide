@@ -43,6 +43,10 @@ const MODEL = process.env.OPENROUTER_MODEL || "openrouter/auto";
 // The quiz endpoint requires strict json_schema support, which auto-selected
 // models are not guaranteed to have — pin it separately if quizzes ever fail.
 const QUIZ_MODEL = process.env.OPENROUTER_QUIZ_MODEL || MODEL;
+// Cap output per request: bounds cost, and without it OpenRouter pre-checks
+// affordability against the routed model's full output window (65k+) — which
+// 402s on keys with modest credit limits.
+const MAX_OUTPUT_TOKENS = 2048;
 
 // Lazy-initialize the client to prevent startup crashes if OPENROUTER_API_KEY is initially missing
 let aiClient: OpenAI | null = null;
@@ -76,6 +80,7 @@ app.post("/api/ai/explain", async (req, res, next) => {
     const ai = getAI();
     const response = await ai.chat.completions.create({
       model: MODEL,
+      max_tokens: MAX_OUTPUT_TOKENS,
       messages: [
         {
           role: "user",
@@ -116,6 +121,7 @@ For each question, provide:
 
     const response = await ai.chat.completions.create({
       model: QUIZ_MODEL,
+      max_tokens: MAX_OUTPUT_TOKENS,
       messages: [{ role: "user", content: prompt }],
       response_format: {
         type: "json_schema",
@@ -205,6 +211,7 @@ Format your responses beautifully in Markdown. Do not give away correct answers 
 
     const response = await ai.chat.completions.create({
       model: MODEL,
+      max_tokens: MAX_OUTPUT_TOKENS,
       messages: [{ role: "system", content: systemInstruction }, ...history],
       temperature: 0.7,
     });
