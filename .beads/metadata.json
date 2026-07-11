@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "ai_engineer_learning_guide",
+  "project_id": "6e373f85-fab2-4f2c-b1fa-5b823c4ea9e5"
+}
