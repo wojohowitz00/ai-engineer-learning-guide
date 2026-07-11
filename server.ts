@@ -37,8 +37,12 @@ function isValidTitle(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= 300;
 }
 
-// Model is routed through OpenRouter; override per-deployment without code changes.
-const MODEL = process.env.OPENROUTER_MODEL || "google/gemini-3.5-flash";
+// Models are routed through OpenRouter; override per-deployment without code changes.
+// Default is the Auto Router, which picks the best model per prompt.
+const MODEL = process.env.OPENROUTER_MODEL || "openrouter/auto";
+// The quiz endpoint requires strict json_schema support, which auto-selected
+// models are not guaranteed to have — pin it separately if quizzes ever fail.
+const QUIZ_MODEL = process.env.OPENROUTER_QUIZ_MODEL || MODEL;
 
 // Lazy-initialize the client to prevent startup crashes if OPENROUTER_API_KEY is initially missing
 let aiClient: OpenAI | null = null;
@@ -111,7 +115,7 @@ For each question, provide:
 4. A clear, encouraging, and detailed explanation explaining why that option is correct and why other options are incorrect.`;
 
     const response = await ai.chat.completions.create({
-      model: MODEL,
+      model: QUIZ_MODEL,
       messages: [{ role: "user", content: prompt }],
       response_format: {
         type: "json_schema",

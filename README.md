@@ -20,7 +20,7 @@ cp .env.example .env    # then set OPENROUTER_API_KEY (https://openrouter.ai/key
 npm run dev             # http://localhost:3000
 ```
 
-Optional: set `OPENROUTER_MODEL` to any [OpenRouter model id](https://openrouter.ai/models) (default: `google/gemini-3.5-flash`). The quiz feature requires a model that supports structured outputs (`json_schema`).
+By default all AI features use [OpenRouter's Auto Router](https://openrouter.ai/docs/guides/routing/routers/auto-router) (`openrouter/auto`), which picks the best model per prompt. To pin a specific model, set `OPENROUTER_MODEL` to any [OpenRouter model id](https://openrouter.ai/models). The quiz feature requires strict structured-output (`json_schema`) support — if quiz generation fails under the Auto Router, pin `OPENROUTER_QUIZ_MODEL` to a schema-capable model (e.g. `google/gemini-3.5-flash`).
 
 ## Scripts
 
