@@ -3,10 +3,9 @@ import { roadmapData } from "./data";
 import { UserProgress, Step } from "./types";
 import RoadmapCard from "./components/RoadmapCard";
 import StudyBuddy from "./components/StudyBuddy";
-import { 
-  Sparkles, Search, GraduationCap, Award, BookMarked, 
-  BookOpen, ChevronRight, CheckCircle2, RefreshCw, 
-  BookmarkCheck, ExternalLink, Moon, Sun, Info, Calendar, Terminal, Lock
+import {
+  Sparkles, Search, Award, BookMarked,
+  CheckCircle2, RefreshCw, ExternalLink, Lock
 } from "lucide-react";
 
 const LOCAL_STORAGE_KEY = "ai_engineer_roadmap_progress";
@@ -369,7 +368,7 @@ export default function App() {
                     onClick={() => { setSearchQuery(""); setResourceFilter("all"); }}
                     className="px-4 py-2 text-xs font-bold border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition"
                   >
-                    Clear Filter Filters
+                    Clear Filters
                   </button>
                 </div>
               )}

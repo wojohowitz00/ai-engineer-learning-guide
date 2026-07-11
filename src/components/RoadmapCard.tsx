@@ -3,11 +3,10 @@ import { Step, Topic, Resource, UserProgress } from "../types";
 import {
   CheckCircle2, Bookmark, BookmarkCheck, ExternalLink,
   Sparkles, Video, BookOpen, GraduationCap, Code,
-  FileText, Award, HelpCircle, Lock
+  FileText, Award, Lock
 } from "lucide-react";
 
 interface RoadmapCardProps {
-  key?: any;
   step: Step;
   progress: UserProgress;
   onToggleTopic: (topicId: string) => void;

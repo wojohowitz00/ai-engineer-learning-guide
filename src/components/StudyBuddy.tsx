@@ -164,18 +164,11 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     }
   };
 
-  // Send Message: Interview Practice
-  const handleSendMessage = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!inputValue.trim() || loading) return;
-
-    const userMessage = inputValue.trim();
-    setInputValue("");
-    setError(null);
-
-    const updatedMessages = [...messages, { role: "user" as const, content: userMessage }];
-    setMessages(updatedMessages);
+  // API Call: Interview turn (also used by the error-retry button, which
+  // re-sends the history that already ends with the user's pending message)
+  const sendInterviewRequest = async (history: { role: "user" | "assistant"; content: string }[]) => {
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch("/api/ai/interview", {
@@ -183,19 +176,32 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           topicTitle,
-          messages: updatedMessages
+          messages: history
         })
       });
       if (!response.ok) throw new Error("Failed to communicate with interviewer. Check your API configuration.");
       const data = await response.json();
       if (data.error) throw new Error(data.error);
-      
-      setMessages([...updatedMessages, { role: "assistant" as const, content: data.content || "" }]);
+
+      setMessages([...history, { role: "assistant" as const, content: data.content || "" }]);
     } catch (err: any) {
       setError(err.message || "Interviewer model failed to respond.");
     } finally {
       setLoading(false);
     }
+  };
+
+  // Send Message: Interview Practice
+  const handleSendMessage = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!inputValue.trim() || loading) return;
+
+    const userMessage = inputValue.trim();
+    setInputValue("");
+
+    const updatedMessages = [...messages, { role: "user" as const, content: userMessage }];
+    setMessages(updatedMessages);
+    sendInterviewRequest(updatedMessages);
   };
 
   // Quiz Option Selector
@@ -435,7 +441,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
                     <p className="font-semibold">Failed to load AI response</p>
                     <p className="opacity-90">{error}</p>
                     <button 
-                      onClick={() => mode === "explain" ? loadExplanation() : mode === "quiz" ? loadQuiz() : handleSendMessage()}
+                      onClick={() => mode === "explain" ? loadExplanation() : mode === "quiz" ? loadQuiz() : sendInterviewRequest(messages)}
                       className="mt-3 px-3 py-1 bg-red-100 hover:bg-red-200 border border-red-200 rounded-lg text-xs font-semibold text-red-800 transition flex items-center gap-1.5"
                     >
                       <RotateCcw className="w-3.5 h-3.5" /> Retry Request
