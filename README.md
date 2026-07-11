@@ -1,20 +1,45 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# AI Engineer Learning Guide
 
-# Run and deploy your AI Studio app
+An interactive roadmap for data scientists transitioning to AI engineering. Six steps, 27 topics, 120 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives.
 
-This contains everything you need to run your app locally.
+Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept explanations, generated multiple-choice quizzes, and a chat-based mock interview. Progress (completed topics, bookmarks, quiz scores) persists in `localStorage` — no accounts.
 
-View your app in AI Studio: https://ai.studio/apps/bdc38373-a866-4461-b5bb-b383f970b1c5
+## Stack
 
-## Run Locally
+- **UI**: React 19, Tailwind CSS v4, lucide-react, motion
+- **Server**: Express + Vite middleware (dev) / static build (prod)
+- **LLM**: [OpenRouter](https://openrouter.ai) via the OpenAI SDK — any supported model, one API key, no provider lock-in
 
-**Prerequisites:**  Node.js
+## Run locally
 
+Prerequisites: Node.js 20+
 
-1. Install dependencies:
-   `npm install`
-2. Copy `.env.example` to `.env` and set `OPENROUTER_API_KEY` (get one at https://openrouter.ai/keys). Optionally set `OPENROUTER_MODEL` to use a different model.
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+cp .env.example .env    # then set OPENROUTER_API_KEY (https://openrouter.ai/keys)
+npm run dev             # http://localhost:3000
+```
+
+Optional: set `OPENROUTER_MODEL` to any [OpenRouter model id](https://openrouter.ai/models) (default: `google/gemini-3.5-flash`). The quiz feature requires a model that supports structured outputs (`json_schema`).
+
+## Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with Vite HMR on port 3000 |
+| `npm run build` | Production build (client to `dist/`, server to `dist/server.cjs`) |
+| `npm start` | Run the production build |
+| `npm run lint` | TypeScript check (`tsc --noEmit`, strict) |
+
+## Project layout
+
+- `src/data.ts` — the curriculum: steps → topics → resources (the real product)
+- `src/App.tsx`, `src/components/` — roadmap UI, resource cards, Study Buddy drawer
+- `server.ts` — Express server with three LLM endpoints: `/api/ai/explain`, `/api/ai/quiz`, `/api/ai/interview`
+- `docs/code-analysis.md` — baseline architecture notes
+- `docs/content-audit/` — per-step link audit reports and consolidated summary
+- `.beads/` — issue tracking (`bd ready` to see open work)
+
+## Content maintenance
+
+The resource list was audited 2026-07-11 (see `docs/content-audit/SUMMARY.md`). Fast-moving entries worth periodic re-checks: DeepLearning.AI "free during beta" courses, Medium-hosted articles, and anything tied to a specific SDK version.

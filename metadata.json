@@ -1,6 +1,0 @@
-{
-  "name": "AI Engineer Learning Guide",
-  "description": "An interactive roadmap and AI-powered study companion with vetted free resources to transition from Data Science to AI Engineering.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
