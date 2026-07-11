@@ -120,12 +120,12 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/gemini/explain", {
+      const response = await fetch("/api/ai/explain", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, stepTitle })
       });
-      if (!response.ok) throw new Error("Failed to load explanation. Please check your network or GEMINI_API_KEY.");
+      if (!response.ok) throw new Error("Failed to load explanation. Please check your network or OPENROUTER_API_KEY.");
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       setExplanation(data.content || "");
@@ -148,12 +148,12 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setQuizFinished(false);
 
     try {
-      const response = await fetch("/api/gemini/quiz", {
+      const response = await fetch("/api/ai/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, topicId })
       });
-      if (!response.ok) throw new Error("Failed to load quiz. Please check your network or GEMINI_API_KEY.");
+      if (!response.ok) throw new Error("Failed to load quiz. Please check your network or OPENROUTER_API_KEY.");
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       setQuiz(data);
@@ -178,7 +178,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setLoading(true);
 
     try {
-      const response = await fetch("/api/gemini/interview", {
+      const response = await fetch("/api/ai/interview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
