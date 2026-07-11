@@ -3,13 +3,39 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
+import { rateLimit } from "express-rate-limit";
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: "256kb" }));
+
+// LLM endpoints are metered upstream — cap per-client request rate.
+app.use(
+  "/api/",
+  rateLimit({
+    windowMs: 60_000,
+    limit: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
+
+// Log full errors server-side; return only safe, actionable messages to the client.
+function respondError(res: express.Response, context: string, error: unknown, fallback: string) {
+  console.error(`Error in ${context}:`, error);
+  const message =
+    error instanceof Error && error.message.startsWith("OPENROUTER_API_KEY")
+      ? error.message
+      : fallback;
+  res.status(500).json({ error: message });
+}
+
+function isValidTitle(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= 300;
+}
 
 // Model is routed through OpenRouter; override per-deployment without code changes.
 const MODEL = process.env.OPENROUTER_MODEL || "google/gemini-3.5-flash";
@@ -38,8 +64,8 @@ function getAI(): OpenAI {
 app.post("/api/ai/explain", async (req, res, next) => {
   try {
     const { topicTitle, stepTitle } = req.body;
-    if (!topicTitle) {
-      res.status(400).json({ error: "topicTitle is required" });
+    if (!isValidTitle(topicTitle)) {
+      res.status(400).json({ error: "topicTitle is required (string, max 300 chars)" });
       return;
     }
 
@@ -49,7 +75,7 @@ app.post("/api/ai/explain", async (req, res, next) => {
       messages: [
         {
           role: "user",
-          content: `Explain the topic "${topicTitle}" which is part of the learning step "${stepTitle || ""}".
+          content: `Explain the topic "${topicTitle}" which is part of the learning step "${isValidTitle(stepTitle) ? stepTitle : ""}".
 Provide a clear, high-quality, professional, and beginner-friendly explanation.
 Include:
 1. A brief high-level concept summary.
@@ -62,9 +88,8 @@ Format your entire answer beautifully in standard Markdown. Use clear headings, 
     });
 
     res.json({ content: response.choices[0]?.message?.content ?? "" });
-  } catch (error: any) {
-    console.error("Error in /api/ai/explain:", error);
-    res.status(500).json({ error: error.message || "An error occurred while generating explanation." });
+  } catch (error) {
+    respondError(res, "/api/ai/explain", error, "An error occurred while generating the explanation.");
   }
 });
 
@@ -72,8 +97,8 @@ Format your entire answer beautifully in standard Markdown. Use clear headings, 
 app.post("/api/ai/quiz", async (req, res, next) => {
   try {
     const { topicTitle, topicId } = req.body;
-    if (!topicTitle) {
-      res.status(400).json({ error: "topicTitle is required" });
+    if (!isValidTitle(topicTitle)) {
+      res.status(400).json({ error: "topicTitle is required (string, max 300 chars)" });
       return;
     }
 
@@ -137,9 +162,8 @@ For each question, provide:
       topicTitle,
       questions: parsedQuiz.questions
     });
-  } catch (error: any) {
-    console.error("Error in /api/ai/quiz:", error);
-    res.status(500).json({ error: error.message || "An error occurred while generating the quiz." });
+  } catch (error) {
+    respondError(res, "/api/ai/quiz", error, "An error occurred while generating the quiz.");
   }
 });
 
@@ -147,8 +171,12 @@ For each question, provide:
 app.post("/api/ai/interview", async (req, res, next) => {
   try {
     const { topicTitle, messages } = req.body;
-    if (!topicTitle) {
-      res.status(400).json({ error: "topicTitle is required" });
+    if (!isValidTitle(topicTitle)) {
+      res.status(400).json({ error: "topicTitle is required (string, max 300 chars)" });
+      return;
+    }
+    if (messages !== undefined && !Array.isArray(messages)) {
+      res.status(400).json({ error: "messages must be an array" });
       return;
     }
 
@@ -161,11 +189,15 @@ Keep your responses professional, constructive, and realistic of an engineering 
 Always give constructive, actionable feedback on their answers, and follow up with a fresh question, or wind down the interview nicely if it reaches a natural conclusion.
 Format your responses beautifully in Markdown. Do not give away correct answers immediately; guide the candidate.`;
 
-    // Client sends messages as { role: "user" | "assistant", content: string }[]
-    const history = (messages || []).map((m: any) => ({
-      role: m.role === "assistant" ? ("assistant" as const) : ("user" as const),
-      content: String(m.content ?? ""),
-    }));
+    // Client sends messages as { role: "user" | "assistant", content: string }[].
+    // Client history is untrusted: keep only the last 40 turns, cap each turn's
+    // length, and coerce roles so nothing else reaches the model.
+    const history = (messages || [])
+      .slice(-40)
+      .map((m: any) => ({
+        role: m?.role === "assistant" ? ("assistant" as const) : ("user" as const),
+        content: String(m?.content ?? "").slice(0, 8000),
+      }));
 
     const response = await ai.chat.completions.create({
       model: MODEL,
@@ -174,9 +206,8 @@ Format your responses beautifully in Markdown. Do not give away correct answers 
     });
 
     res.json({ content: response.choices[0]?.message?.content ?? "" });
-  } catch (error: any) {
-    console.error("Error in /api/ai/interview:", error);
-    res.status(500).json({ error: error.message || "An error occurred during mock interview." });
+  } catch (error) {
+    respondError(res, "/api/ai/interview", error, "An error occurred during the mock interview.");
   }
 });
 
