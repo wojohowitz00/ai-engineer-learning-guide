@@ -176,11 +176,11 @@ export default function App() {
               <span>Roadmap & Resource Guide // 2026 Edition</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-serif leading-tight tracking-tight text-[#1A1A1A]">
-              From Data Science <br className="hidden md:block" />
-              <span className="italic font-light opacity-85 text-3xl md:text-5xl">to AI Engineering</span>
+              Become an AI Engineer <br className="hidden md:block" />
+              <span className="italic font-light opacity-85 text-3xl md:text-5xl">for people who already code</span>
             </h1>
             <p className="text-sm md:text-base text-neutral-600 max-w-3xl leading-relaxed">
-              Transition from classic Data Science to production-style AI Engineering. Learn structured projects, prompt engineering, agent construction, production backends, robust RAG systems, evaluations, and mock-interview practices. 
+              Transition from writing code — as a developer, data scientist, or analyst — to production-style AI Engineering. Learn structured projects, prompt engineering, agent construction, production backends, robust RAG systems, evaluations, and mock-interview practices.
               Nearly every featured resource is <strong className="text-[#1A1A1A] font-bold underline underline-offset-4 decoration-[#3E5C76]">completely free</strong> — the handful of membership-gated picks are marked with a paywall badge, and each sits alongside a free alternative.
             </p>
           </div>

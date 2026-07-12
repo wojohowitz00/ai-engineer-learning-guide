@@ -1,8 +1,8 @@
 # AI Engineer Learning Guide
 
-An interactive learning roadmap for data scientists transitioning to AI engineering. A "Depth Zero" on-ramp (ship something with an LLM on day one) plus six steps, 28 topics, and 122 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives.
+An interactive learning roadmap for people who already code — developers, data scientists, analysts — transitioning to AI engineering. A "Depth Zero" on-ramp (ship something with an LLM on day one) plus six steps, 28 topics, and 122 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives.
 
-The guide is built around **pull-based learning**: every topic opens with a motivation hook anchored in a pain point you have already felt in applied data science work, one "start here" resource is marked per topic (the rest collapse behind a "go deeper" toggle), and a capstone project thread runs through all the steps — each step's deliverable deliberately ends on the weakness the next step fixes.
+The guide is built around **pull-based learning**: every topic opens with a motivation hook anchored in a pain point you have already felt in real technical work, one "start here" resource is marked per topic (the rest collapse behind a "go deeper" toggle), and a capstone project thread runs through all the steps — each step's deliverable deliberately ends on the weakness the next step fixes.
 
 Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept explanations, generated multiple-choice quizzes, and a chat-based mock interview — all anchored in the same motivating scenarios. Progress (completed topics, bookmarks, quiz scores) persists in `localStorage` — no accounts.
 
@@ -11,7 +11,7 @@ Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept 
 This project stands on two pieces of work by others:
 
 - **The roadmap.** This guide uses **Dave Ebbelaar**'s six-step roadmap as its structure: the steps and their topic breakdown come from his video ["How to Go From Data Scientist to AI Engineer (I Did This)"](https://www.youtube.com/watch?v=yAOzupIW87E) and the companion roadmap [`ds-ml-to-ai-engineer-2026.md`](https://github.com/daveebbelaar/ai-cookbook/tree/main/roadmaps) in his MIT-licensed [ai-cookbook](https://github.com/daveebbelaar/ai-cookbook) repository. **The learning resources, however, are our own** — every one of the 122 links was independently selected, verified, and audited for this project rather than taken from the roadmap. If this guide is useful to you, his channel and cookbook are the primary sources — go subscribe and star them.
-- **The learning philosophy.** The pull-based framing — the Depth Zero "solve one real problem today" on-ramp, per-topic motivation hooks, and the start-here/go-deeper resource minimalism — was inspired by the video ["How I'd Learn AI in 2026 From Scratch — BACKWARDS"](https://www.youtube.com/watch?v=Wx8r6ZEEjz0) and its companion one-page map, adapted here for an audience that already has data science scar tissue to anchor to.
+- **The learning philosophy.** The pull-based framing — the Depth Zero "solve one real problem today" on-ramp, per-topic motivation hooks, and the start-here/go-deeper resource minimalism — was inspired by the video ["How I'd Learn AI in 2026 From Scratch — BACKWARDS"](https://www.youtube.com/watch?v=Wx8r6ZEEjz0) and its companion one-page map, adapted here for an audience that already has engineering scar tissue to anchor to.
 
 What is original to this project: the interactive application itself, the resource curation and link audit, the wording of all motivation hooks and capstone copy, and the AI Study Buddy. This project is not affiliated with or endorsed by either creator.
 

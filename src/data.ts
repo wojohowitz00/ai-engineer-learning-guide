@@ -42,7 +42,7 @@ export const roadmapData: Step[] = [
         id: "step1-1",
         title: "Moving from Jupyter notebooks to structured, multi-file Python projects",
         whenYouNeedThis:
-          "Your analysis runs perfectly — on your laptop, in cell execution order 4, 2, 7. Now a colleague needs to reproduce it and a stakeholder wants it running every Monday. Notebooks got you to the insight; structure gets it to other people.",
+          "Your prototype runs perfectly — on your laptop, in notebook cell order 4, 2, 7, or a folder of scripts only you understand. Now a colleague needs to reproduce it and a stakeholder wants it running every Monday. Prototypes get you the result; structure gets it to other people.",
         resources: [
           {
             title: "The Journey from Jupyter to Programmer: A Quick-Start Guide",
@@ -86,7 +86,7 @@ export const roadmapData: Step[] = [
         id: "step1-2",
         title: "Object-oriented programming (OOP) — classes, imports, modules",
         whenYouNeedThis:
-          "You've pasted the same preprocessing cells into five notebooks, and a schema change means fixing all five. Classes and modules are how you write that logic once and import it everywhere.",
+          "You've pasted the same helper code into five projects, and a change means fixing all five copies. Classes and modules are how you write that logic once and import it everywhere.",
         resources: [
           {
             title: "OOP Learning Path",
@@ -131,7 +131,7 @@ export const roadmapData: Step[] = [
         id: "step1-3",
         title: "UV — modern dependency management (alternative to pip)",
         whenYouNeedThis:
-          "'Works in my conda env' has ended more handoffs than bad code ever did. A lockfile-based toolchain makes your environment reproducible on any machine — including the server your app will eventually ship to.",
+          "'Works in my environment' has ended more handoffs than bad code ever did. A lockfile-based toolchain makes your setup reproducible on any machine — including the server your app will eventually ship to.",
         resources: [
           {
             title: "uv Official Documentation",
@@ -168,7 +168,7 @@ export const roadmapData: Step[] = [
         id: "step1-4",
         title: "Git workflows — branching strategies and pull requests",
         whenYouNeedThis:
-          "final_v3_ACTUALLY_final.ipynb is version control by filename. The moment your code has a second contributor — human or AI coding agent — you need branches, pull requests, and a history you can roll back.",
+          "final_v3_ACTUALLY_final is version control by filename. The moment your code has a second contributor — human or AI coding agent — you need branches, pull requests, and a history you can roll back.",
         resources: [
           {
             title: "Git & GitHub Crash Course for Beginners",
@@ -303,7 +303,7 @@ export const roadmapData: Step[] = [
         id: "step2-2",
         title: "Prompt engineering",
         whenYouNeedThis:
-          "Your zero-shot classifier agrees with human labels 60% of the time; few-shot with five well-chosen examples hits 85%. The prompt is a hyperparameter — this is how you tune it.",
+          "Zero-shot, the model gets your task right 60% of the time; few-shot with five well-chosen examples hits 85%. The prompt is a tunable parameter — this is how you tune it.",
         resources: [
           {
             title: "ChatGPT Prompt Engineering for Developers",
@@ -384,7 +384,7 @@ export const roadmapData: Step[] = [
         id: "step2-4",
         title: "Context engineering",
         whenYouNeedThis:
-          "You pasted the whole data dictionary into the prompt: quality dropped, latency doubled, the bill tripled. What enters the context window — and what you deliberately leave out — is now the biggest lever on output quality.",
+          "You pasted everything you had into the prompt: quality dropped, latency doubled, the bill tripled. What enters the context window — and what you deliberately leave out — is now the biggest lever on output quality.",
         resources: [
           {
             title: "Effective Context Engineering for AI Agents",
@@ -473,7 +473,7 @@ export const roadmapData: Step[] = [
         id: "step3-2",
         title: "Pydantic",
         whenYouNeedThis:
-          "You already validate dataframes defensively; Pydantic moves that discipline to the request boundary, rejecting garbage input before it reaches your logic — and it's the same machinery that types LLM structured outputs.",
+          "You already validate inputs defensively; Pydantic moves that discipline to the request boundary, rejecting garbage before it reaches your logic — and it's the same machinery that types LLM structured outputs.",
         resources: [
           {
             title: "Python Pydantic Tutorial: Complete Data Validation Course",
@@ -554,7 +554,7 @@ export const roadmapData: Step[] = [
         id: "step3-4",
         title: "PostgreSQL",
         whenYouNeedThis:
-          "Your data lives in CSVs on your desktop; production data lives in a database serving many users at once. SQL from Python — with transactions and indexes — is the difference between an analysis and an application.",
+          "Your data lives in files on your laptop; production data lives in a database serving many users at once. SQL from your code — with transactions and indexes — is the difference between a script and an application.",
         resources: [
           {
             title: "Part I. Tutorial (Official PostgreSQL Docs)",
@@ -681,7 +681,7 @@ export const roadmapData: Step[] = [
         id: "step4-2",
         title: "Chunking strategies",
         whenYouNeedThis:
-          "Your first RAG build retrieves the wrong passages: the answer spanned two sections and the splitter cut right between them. Chunking is a precision/recall trade-off over passages — a ranking problem you already have the vocabulary for.",
+          "Your first RAG build retrieves the wrong passages: the answer spanned two sections and the splitter cut right between them. Chunking is a precision/recall trade-off over passages — a tuning problem you can measure, not magic.",
         resources: [
           {
             title: "Chunking Strategies for LLM Applications",
@@ -718,7 +718,7 @@ export const roadmapData: Step[] = [
         id: "step4-3",
         title: "Generating embeddings via API & embedding models",
         whenYouNeedThis:
-          "Keyword search misses 'churn drivers' when the document says 'attrition factors'. Embeddings are the dense vectors you know from ML, applied so that meaning — not string overlap — decides the match.",
+          "Keyword search misses 'churn drivers' when the document says 'attrition factors'. Embeddings turn text into vectors so that meaning — not string overlap — decides the match.",
         resources: [
           {
             title: "Vector embeddings (Embeddings guide)",
@@ -844,7 +844,7 @@ export const roadmapData: Step[] = [
         id: "step5-1",
         title: "Langfuse — tracking inputs, outputs, latency, and cost",
         whenYouNeedThis:
-          "A user reports 'the bot was wrong yesterday' and you have nothing — no record of the prompt, the retrieved context, the output, or what it cost. Tracing is experiment tracking (think MLflow) for LLM apps.",
+          "A user reports 'the bot was wrong yesterday' and you have nothing — no record of the prompt, the retrieved context, the output, or what it cost. Tracing gives every LLM call the logging you'd demand from any other production system.",
         resources: [
           {
             title: "10 min Walkthrough of Langfuse",
@@ -881,7 +881,7 @@ export const roadmapData: Step[] = [
         id: "step5-2",
         title: "Building evaluation datasets & regression testing",
         whenYouNeedThis:
-          "You would never ship a classifier without a holdout set — yet most teams ship prompt changes on vibes. An eval dataset turns 'it seems better' into a regression suite that runs on every change. This step is where your data science instincts are the superpower.",
+          "You would never ship code without tests — yet most teams ship prompt changes on vibes. An eval dataset turns 'it seems better' into a regression suite that runs on every change: the test suite your AI features have been missing.",
         resources: [
           {
             title: "Automated Testing for LLMOps",
@@ -918,7 +918,7 @@ export const roadmapData: Step[] = [
         id: "step5-3",
         title: "\"LLM-as-a-judge\" workflows",
         whenYouNeedThis:
-          "Your outputs are free text; there is no accuracy column. LLM-as-a-judge is weak supervision for generation — a scalable, imperfect labeler whose agreement with humans you must measure, which is a validation problem you already know how to run.",
+          "Your outputs are free text; there is no accuracy column. LLM-as-a-judge uses a model as a scalable, imperfect grader — whose agreement with humans you must measure before you trust it.",
         resources: [
           {
             title: "LLM-as-a-judge: a complete guide",

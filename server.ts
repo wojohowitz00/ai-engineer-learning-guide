@@ -94,12 +94,12 @@ app.post("/api/ai/explain", async (req, res, next) => {
         {
           role: "user",
           content: `Explain the topic "${topicTitle}" which is part of the learning step "${isValidTitle(stepTitle) ? stepTitle : ""}".
-The learner is a data scientist transitioning to AI engineering.${hook ? `
+The learner is an experienced coder (developer, data scientist, or analyst) transitioning to AI engineering.${hook ? `
 Open by connecting the concept to this scenario the learner has already lived through: "${hook}". Anchor the rest of the explanation in that pain point.` : ""}
 Provide a clear, high-quality, professional, and beginner-friendly explanation.
 Include:
 1. A brief high-level concept summary.
-2. Why it is critical for an AI Engineer (rather than a traditional Data Scientist).
+2. Why it is critical for an AI Engineer (compared to traditional software or data roles).
 3. A real-world example or practical use case.
 4. A small, clean Python code snippet or command-line demonstration showing how to use or configure it.
 Format your entire answer beautifully in standard Markdown. Use clear headings, list items, and code blocks.`,
@@ -204,7 +204,7 @@ app.post("/api/ai/interview", async (req, res, next) => {
 
     const ai = getAI();
 
-    const systemInstruction = `You are a Lead AI Engineer mock-interviewing a candidate who is transitioning from data science to AI engineering.
+    const systemInstruction = `You are a Lead AI Engineer mock-interviewing a candidate who already codes professionally and is transitioning to AI engineering.
 The current topic under discussion is "${topicTitle}".${hook ? `
 The candidate's motivating scenario for this topic: "${hook}". Ground at least one question in a situation like it.` : ""}
 Your task is to ask challenging technical, design, or behavioral interview questions regarding "${topicTitle}" to test the candidate's proficiency.
