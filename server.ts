@@ -59,10 +59,13 @@ const IS_OLLAMA_CLOUD = LLM_BASE_URL.includes("ollama.com");
 // Local servers ignore the key; Ollama Cloud and OpenRouter require one.
 const LLM_API_KEY =
   process.env.LLM_API_KEY || process.env.OLLAMA_API_KEY || process.env.OPENROUTER_API_KEY || "not-needed";
+// Cloud default is gemma4:31b — Ollama retired the gemma3 family from cloud
+// serving on 2026-07-15 (the premium repo's model-watch workflow monitors
+// for this class of event). Local default stays the small gemma3 pull.
 const MODEL =
   process.env.LLM_MODEL ||
   process.env.OPENROUTER_MODEL ||
-  (IS_OPENROUTER ? "openrouter/auto" : IS_OLLAMA_CLOUD ? "gemma3:12b" : "gemma3");
+  (IS_OPENROUTER ? "openrouter/auto" : IS_OLLAMA_CLOUD ? "gemma4:31b" : "gemma3");
 // The quiz endpoint requires json_schema structured-output support —
 // pin a schema-capable model separately if quizzes ever fail.
 const QUIZ_MODEL = process.env.LLM_QUIZ_MODEL || process.env.OPENROUTER_QUIZ_MODEL || MODEL;
