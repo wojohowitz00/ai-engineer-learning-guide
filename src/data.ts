@@ -9,6 +9,8 @@ export const roadmapData: Step[] = [
       {
         id: "step1-1",
         title: "Moving from Jupyter notebooks to structured, multi-file Python projects",
+        whenYouNeedThis:
+          "Your analysis runs perfectly — on your laptop, in cell execution order 4, 2, 7. Now a colleague needs to reproduce it and a stakeholder wants it running every Monday. Notebooks got you to the insight; structure gets it to other people.",
         resources: [
           {
             title: "The Journey from Jupyter to Programmer: A Quick-Start Guide",
@@ -50,6 +52,8 @@ export const roadmapData: Step[] = [
       {
         id: "step1-2",
         title: "Object-oriented programming (OOP) — classes, imports, modules",
+        whenYouNeedThis:
+          "You've pasted the same preprocessing cells into five notebooks, and a schema change means fixing all five. Classes and modules are how you write that logic once and import it everywhere.",
         resources: [
           {
             title: "OOP Learning Path",
@@ -92,6 +96,8 @@ export const roadmapData: Step[] = [
       {
         id: "step1-3",
         title: "UV — modern dependency management (alternative to pip)",
+        whenYouNeedThis:
+          "'Works in my conda env' has ended more handoffs than bad code ever did. A lockfile-based toolchain makes your environment reproducible on any machine — including the server your app will eventually ship to.",
         resources: [
           {
             title: "uv Official Documentation",
@@ -126,6 +132,8 @@ export const roadmapData: Step[] = [
       {
         id: "step1-4",
         title: "Git workflows — branching strategies and pull requests",
+        whenYouNeedThis:
+          "final_v3_ACTUALLY_final.ipynb is version control by filename. The moment your code has a second contributor — human or AI coding agent — you need branches, pull requests, and a history you can roll back.",
         resources: [
           {
             title: "Git & GitHub Crash Course for Beginners",
@@ -160,6 +168,8 @@ export const roadmapData: Step[] = [
       {
         id: "step1-5",
         title: "Production basics: testing (pytest), debugging, logging, .env config",
+        whenYouNeedThis:
+          "Your pipeline ran for six hours, failed silently at step four, and you found out from the stakeholder. Tests catch the break before it ships, logs tell you where it broke, and .env keeps the API key out of the repo.",
         resources: [
           {
             title: "pytest Tutorial: Effective Python Testing",
@@ -217,6 +227,8 @@ export const roadmapData: Step[] = [
       {
         id: "step2-1",
         title: "OpenAI Python SDK — API calls, caching, structured outputs",
+        whenYouNeedThis:
+          "You used an LLM to label 10,000 rows and it returned clean JSON for 9,996 of them — the other four broke your parser. Structured outputs turn the model's response into a typed contract, and caching keeps the bill sane on repeated prompts.",
         resources: [
           {
             title: "Structured Outputs — OpenAI API Guide",
@@ -251,6 +263,8 @@ export const roadmapData: Step[] = [
       {
         id: "step2-2",
         title: "Prompt engineering",
+        whenYouNeedThis:
+          "Your zero-shot classifier agrees with human labels 60% of the time; few-shot with five well-chosen examples hits 85%. The prompt is a hyperparameter — this is how you tune it.",
         resources: [
           {
             title: "ChatGPT Prompt Engineering for Developers",
@@ -292,6 +306,8 @@ export const roadmapData: Step[] = [
       {
         id: "step2-3",
         title: "Building AI agents from scratch (no frameworks)",
+        whenYouNeedThis:
+          "A single completion can't answer 'which of our products underperformed last quarter, and why' — that takes looking things up, deciding, and looking again. An agent is just a loop with tool calls, and building one bare shows you exactly what the frameworks would be hiding.",
         resources: [
           {
             title: "Build an AI Agent from Scratch with Python (No Frameworks)",
@@ -326,6 +342,8 @@ export const roadmapData: Step[] = [
       {
         id: "step2-4",
         title: "Context engineering",
+        whenYouNeedThis:
+          "You pasted the whole data dictionary into the prompt: quality dropped, latency doubled, the bill tripled. What enters the context window — and what you deliberately leave out — is now the biggest lever on output quality.",
         resources: [
           {
             title: "Effective Context Engineering for AI Agents",
@@ -374,6 +392,8 @@ export const roadmapData: Step[] = [
       {
         id: "step3-1",
         title: "FastAPI",
+        whenYouNeedThis:
+          "Right now you are the API: stakeholders 'query the model' by messaging you. A REST endpoint replaces you with a URL that other systems can call while you sleep.",
         resources: [
           {
             title: "Tutorial - User Guide",
@@ -408,6 +428,8 @@ export const roadmapData: Step[] = [
       {
         id: "step3-2",
         title: "Pydantic",
+        whenYouNeedThis:
+          "You already validate dataframes defensively; Pydantic moves that discipline to the request boundary, rejecting garbage input before it reaches your logic — and it's the same machinery that types LLM structured outputs.",
         resources: [
           {
             title: "Python Pydantic Tutorial: Complete Data Validation Course",
@@ -442,6 +464,8 @@ export const roadmapData: Step[] = [
       {
         id: "step3-3",
         title: "Docker (for Python developers)",
+        whenYouNeedThis:
+          "It works on your machine — and the deployment target is not your machine. A container ships your exact environment, from Python version to system libraries, anywhere.",
         resources: [
           {
             title: "Python Docker Tutorials",
@@ -483,6 +507,8 @@ export const roadmapData: Step[] = [
       {
         id: "step3-4",
         title: "PostgreSQL",
+        whenYouNeedThis:
+          "Your data lives in CSVs on your desktop; production data lives in a database serving many users at once. SQL from Python — with transactions and indexes — is the difference between an analysis and an application.",
         resources: [
           {
             title: "Part I. Tutorial (Official PostgreSQL Docs)",
@@ -517,6 +543,8 @@ export const roadmapData: Step[] = [
       {
         id: "step3-5",
         title: "Model Context Protocol (MCP) servers",
+        whenYouNeedThis:
+          "Your agent needs your database, your files, and your APIs — but pasting credentials into prompts is how incidents happen. MCP is the standard, permissioned way to hand tools to a model.",
         resources: [
           {
             title: "Build an MCP Server",
@@ -558,6 +586,8 @@ export const roadmapData: Step[] = [
       {
         id: "step4-1",
         title: "RAG fundamentals and pipeline design",
+        whenYouNeedThis:
+          "The model has never seen your company's documents, and you can't fine-tune it every week — nor should you, since retrieval is usually the right call. RAG bolts your knowledge onto a frozen model at query time.",
         resources: [
           {
             title: "Learn RAG from Scratch – Python AI Tutorial from a LangChain Engineer",
@@ -600,6 +630,8 @@ export const roadmapData: Step[] = [
       {
         id: "step4-2",
         title: "Chunking strategies",
+        whenYouNeedThis:
+          "Your first RAG build retrieves the wrong passages: the answer spanned two sections and the splitter cut right between them. Chunking is a precision/recall trade-off over passages — a ranking problem you already have the vocabulary for.",
         resources: [
           {
             title: "Chunking Strategies for LLM Applications",
@@ -634,6 +666,8 @@ export const roadmapData: Step[] = [
       {
         id: "step4-3",
         title: "Generating embeddings via API & embedding models",
+        whenYouNeedThis:
+          "Keyword search misses 'churn drivers' when the document says 'attrition factors'. Embeddings are the dense vectors you know from ML, applied so that meaning — not string overlap — decides the match.",
         resources: [
           {
             title: "Vector embeddings (Embeddings guide)",
@@ -675,6 +709,8 @@ export const roadmapData: Step[] = [
       {
         id: "step4-4",
         title: "Vector storage and retrieval methods",
+        whenYouNeedThis:
+          "Brute-force cosine similarity over a million vectors is a coffee-break query; approximate nearest-neighbor indexes make it milliseconds. This is where retrieval stops being a script and becomes infrastructure.",
         resources: [
           {
             title: "What is a Vector Database & How Does it Work?",
@@ -709,6 +745,8 @@ export const roadmapData: Step[] = [
       {
         id: "step4-5",
         title: "PostgreSQL + pgvector",
+        whenYouNeedThis:
+          "Before adding a dedicated vector database to your stack: the Postgres you learned in Step 3 does this with one extension — embeddings and business data in the same database, joined in a single query.",
         resources: [
           {
             title: "pgvector (official README)",
@@ -750,6 +788,8 @@ export const roadmapData: Step[] = [
       {
         id: "step5-1",
         title: "Langfuse — tracking inputs, outputs, latency, and cost",
+        whenYouNeedThis:
+          "A user reports 'the bot was wrong yesterday' and you have nothing — no record of the prompt, the retrieved context, the output, or what it cost. Tracing is experiment tracking (think MLflow) for LLM apps.",
         resources: [
           {
             title: "10 min Walkthrough of Langfuse",
@@ -784,6 +824,8 @@ export const roadmapData: Step[] = [
       {
         id: "step5-2",
         title: "Building evaluation datasets & regression testing",
+        whenYouNeedThis:
+          "You would never ship a classifier without a holdout set — yet most teams ship prompt changes on vibes. An eval dataset turns 'it seems better' into a regression suite that runs on every change. This step is where your data science instincts are the superpower.",
         resources: [
           {
             title: "Automated Testing for LLMOps",
@@ -818,6 +860,8 @@ export const roadmapData: Step[] = [
       {
         id: "step5-3",
         title: "\"LLM-as-a-judge\" workflows",
+        whenYouNeedThis:
+          "Your outputs are free text; there is no accuracy column. LLM-as-a-judge is weak supervision for generation — a scalable, imperfect labeler whose agreement with humans you must measure, which is a validation problem you already know how to run.",
         resources: [
           {
             title: "LLM-as-a-judge: a complete guide",
@@ -852,6 +896,8 @@ export const roadmapData: Step[] = [
       {
         id: "step5-4",
         title: "Guardrails — prompt injection, PII, output validation",
+        whenYouNeedThis:
+          "Fair warning: nothing in development forces you to learn this — production teaches it as an incident. Prompt injection, leaked PII, and malformed outputs are cheaper to mitigate before users discover them for you.",
         resources: [
           {
             title: "Safe and Reliable AI via Guardrails",
@@ -907,6 +953,8 @@ export const roadmapData: Step[] = [
       {
         id: "step6-1",
         title: "Automated backend pipeline (ingest → email summary, scheduling)",
+        whenYouNeedThis:
+          "The Monday-morning report you assemble by hand is a cron job that hasn't been written yet. Ingest, summarize with an LLM, email — the whole loop runs without you.",
         resources: [
           {
             title: "How to Automate Work Using Python",
@@ -941,6 +989,8 @@ export const roadmapData: Step[] = [
       {
         id: "step6-2",
         title: "Basic front-end for a chat UI (Streamlit / Gradio)",
+        whenYouNeedThis:
+          "Your agent is impressive — in your terminal, where nobody else will ever meet it. Streamlit or Gradio puts a real interface in front of a colleague in an afternoon, and their first three messages will change your roadmap.",
         resources: [
           {
             title: "Build a basic LLM chat app",
@@ -975,6 +1025,8 @@ export const roadmapData: Step[] = [
       {
         id: "step6-3",
         title: "Full-stack chat application (UI + backend + database + auth)",
+        whenYouNeedThis:
+          "The demo convinced people; now they want accounts, saved history, and concurrent users — the point where a script becomes a product. This is every previous step composed into one system.",
         resources: [
           {
             title: "MERN Stack Project: Realtime Chat App Tutorial",
@@ -1016,6 +1068,8 @@ export const roadmapData: Step[] = [
       {
         id: "step6-4",
         title: "Deployment — VPS or free-tier cloud",
+        whenYouNeedThis:
+          "localhost:8000 dies with your laptop lid. Shipping to a VPS or free-tier cloud is the last step between 'a project I describe in interviews' and 'a URL I put in them'.",
         resources: [
           {
             title: "How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 22.04",
