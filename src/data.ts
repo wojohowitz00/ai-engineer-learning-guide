@@ -14,6 +14,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "The Journey from Jupyter to Programmer: A Quick-Start Guide",
+            primary: true,
             url: "https://towardsdatascience.com/the-journey-from-jupyter-to-programmer-a-quick-start-guide/",
             type: "tutorial",
             platform: "Towards Data Science",
@@ -64,6 +65,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Python OOP Tutorials – Working with Classes",
+            primary: true,
             url: "https://www.youtube.com/watch?v=ZDa-Z5JzLYM",
             type: "video",
             platform: "Corey Schafer (YouTube)",
@@ -101,6 +103,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "uv Official Documentation",
+            primary: true,
             url: "https://docs.astral.sh/uv/",
             type: "docs",
             platform: "Astral Docs",
@@ -137,6 +140,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Git & GitHub Crash Course for Beginners",
+            primary: true,
             url: "https://www.freecodecamp.org/news/git-and-github-crash-course-for-beginners/",
             type: "course",
             platform: "freeCodeCamp",
@@ -173,6 +177,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "pytest Tutorial: Effective Python Testing",
+            primary: true,
             url: "https://realpython.com/pytest-python-testing/",
             type: "tutorial",
             platform: "Real Python",
@@ -232,6 +237,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Structured Outputs — OpenAI API Guide",
+            primary: true,
             url: "https://developers.openai.com/api/docs/guides/structured-outputs",
             type: "docs",
             platform: "OpenAI Docs",
@@ -268,6 +274,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "ChatGPT Prompt Engineering for Developers",
+            primary: true,
             url: "https://www.deeplearning.ai/courses/chatgpt-prompt-eng",
             type: "course",
             platform: "DeepLearning.AI",
@@ -311,6 +318,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Build an AI Agent from Scratch with Python (No Frameworks)",
+            primary: true,
             url: "https://alejandro-ao.com/agents-from-scratch/",
             type: "tutorial",
             platform: "Alejandro AO",
@@ -347,6 +355,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Effective Context Engineering for AI Agents",
+            primary: true,
             url: "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
             type: "blog",
             platform: "Anthropic",
@@ -397,6 +406,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Tutorial - User Guide",
+            primary: true,
             url: "https://fastapi.tiangolo.com/tutorial/",
             type: "docs",
             platform: "FastAPI Docs",
@@ -433,6 +443,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Python Pydantic Tutorial: Complete Data Validation Course",
+            primary: true,
             url: "https://www.youtube.com/watch?v=M81pfi64eeM",
             type: "video",
             platform: "Corey Schafer (YouTube)",
@@ -497,6 +508,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Python language-specific guide",
+            primary: true,
             url: "https://docs.docker.com/guides/python/",
             type: "docs",
             platform: "Docker Docs",
@@ -512,6 +524,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Part I. Tutorial (Official PostgreSQL Docs)",
+            primary: true,
             url: "https://www.postgresql.org/docs/current/tutorial.html",
             type: "docs",
             platform: "PostgreSQL Docs",
@@ -548,6 +561,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Build an MCP Server",
+            primary: true,
             url: "https://modelcontextprotocol.io/docs/develop/build-server",
             type: "docs",
             platform: "Model Context Protocol",
@@ -591,6 +605,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Learn RAG from Scratch – Python AI Tutorial from a LangChain Engineer",
+            primary: true,
             url: "https://www.freecodecamp.org/news/mastering-rag-from-scratch/",
             type: "course",
             platform: "freeCodeCamp",
@@ -635,6 +650,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Chunking Strategies for LLM Applications",
+            primary: true,
             url: "https://www.pinecone.io/learn/chunking-strategies/",
             type: "tutorial",
             platform: "Pinecone",
@@ -671,6 +687,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Vector embeddings (Embeddings guide)",
+            primary: true,
             url: "https://developers.openai.com/api/docs/guides/embeddings",
             type: "docs",
             platform: "OpenAI Docs",
@@ -714,6 +731,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "What is a Vector Database & How Does it Work?",
+            primary: true,
             url: "https://www.pinecone.io/learn/vector-database/",
             type: "tutorial",
             platform: "Pinecone",
@@ -750,6 +768,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "pgvector (official README)",
+            primary: true,
             url: "https://github.com/pgvector/pgvector",
             type: "repo",
             platform: "GitHub",
@@ -800,6 +819,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Get Started with Tracing",
+            primary: true,
             url: "https://langfuse.com/docs/observability/get-started",
             type: "docs",
             platform: "Langfuse Docs",
@@ -850,6 +870,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Promptfoo: Getting Started",
+            primary: true,
             url: "https://www.promptfoo.dev/docs/intro/",
             type: "docs",
             platform: "Promptfoo Docs",
@@ -865,6 +886,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "LLM-as-a-judge: a complete guide",
+            primary: true,
             url: "https://www.evidentlyai.com/llm-guide/llm-as-a-judge",
             type: "blog",
             platform: "Evidently AI",
@@ -929,6 +951,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "OWASP Top 10 for LLM Applications (2025)",
+            primary: true,
             url: "https://genai.owasp.org/llm-top-10/",
             type: "docs",
             platform: "OWASP",
@@ -958,6 +981,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "How to Automate Work Using Python",
+            primary: true,
             url: "https://www.freecodecamp.org/news/how-to-automate-things-using-python/",
             type: "course",
             platform: "freeCodeCamp",
@@ -994,6 +1018,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "Build a basic LLM chat app",
+            primary: true,
             url: "https://docs.streamlit.io/develop/tutorials/chat-and-llm-apps/build-conversational-apps",
             type: "docs",
             platform: "Streamlit Docs",
@@ -1030,6 +1055,7 @@ export const roadmapData: Step[] = [
         resources: [
           {
             title: "MERN Stack Project: Realtime Chat App Tutorial",
+            primary: true,
             url: "https://www.youtube.com/watch?v=ntKkVrQqBYY",
             type: "video",
             platform: "YouTube",
@@ -1087,6 +1113,7 @@ export const roadmapData: Step[] = [
           },
           {
             title: "Host Python Web Apps FOR FREE (Flask, Django, FastAPI)",
+            primary: true,
             url: "https://www.youtube.com/watch?v=grUCtaAiUd0",
             type: "video",
             platform: "YouTube",
