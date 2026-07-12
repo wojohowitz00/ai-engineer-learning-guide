@@ -22,6 +22,8 @@ export interface Step {
   id: number;
   title: string;
   description: string;
+  /** Capstone thread: what the learner's evolving project gains this step, ending on the weakness the next step fixes. Shown in the step header. */
+  capstone?: string;
   topics: Topic[];
 }
 

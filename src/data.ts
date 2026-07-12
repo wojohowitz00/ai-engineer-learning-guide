@@ -5,6 +5,7 @@ export const roadmapData: Step[] = [
     id: 0,
     title: "Depth Zero: Ship Something Today",
     description: "Before the curriculum: pick one real, annoying problem from your own work and solve it end-to-end with an LLM — today, in a chat interface, no code required. What you build becomes your compass for every step below, and the walls you hit become your reasons to learn them.",
+    capstone: "Today's chat conversation is the seed of your capstone. Notice what you keep re-pasting — the same context, the same instructions, the same documents. That friction is the backlog for everything below.",
     topics: [
       {
         id: "step0-1",
@@ -35,6 +36,7 @@ export const roadmapData: Step[] = [
     id: 1,
     title: "Close the Software Engineering Gap",
     description: "Move from interactive scripting in notebooks to building robust, modular, production-grade applications with software engineering best practices.",
+    capstone: "Turn your Depth Zero chat workflow into a real repo: a structured Python project (uv, git, tests, .env) that calls the model with your standard context baked in. It works — but it fires one prompt, remembers nothing, and can't use tools. Step 2 fixes that.",
     topics: [
       {
         id: "step1-1",
@@ -258,6 +260,7 @@ export const roadmapData: Step[] = [
     id: 2,
     title: "The LLM-Specific Layer",
     description: "Develop the cognitive mechanics of AI engineering: structuring outputs, advanced prompting techniques, context design, and building custom agents from absolute scratch.",
+    capstone: "Give the project a brain: structured outputs so responses parse reliably, a prompt you've actually tuned, and an agent loop with one or two tools. It now does real multi-step work — but only you can run it, from your terminal, on your machine. Step 3 fixes that.",
     topics: [
       {
         id: "step2-1",
@@ -427,6 +430,7 @@ export const roadmapData: Step[] = [
     id: 3,
     title: "Build Production-Ready Backends",
     description: "Build robust, containerized, and secure RESTful backends and custom API interfaces to hook up relational data and serve custom logic.",
+    capstone: "Put an API under it: FastAPI endpoints with Pydantic at the boundary, Postgres for persistence, Docker to ship the environment. Colleagues can call it now — but it still answers from the model's general knowledge and confidently makes things up about your documents. Step 4 fixes that.",
     topics: [
       {
         id: "step3-1",
@@ -626,6 +630,7 @@ export const roadmapData: Step[] = [
     id: 4,
     title: "Retrieval-Augmented Generation (RAG)",
     description: "Understand the backbone of production knowledge systems: text chunking strategies, embeddings APIs, vector retrieval, and native database search extensions.",
+    capstone: "Bolt on retrieval: chunk your own documents, embed them, store the vectors in the Postgres you already run (pgvector), retrieve at query time. It finally answers from your knowledge — but you have no idea how well, and every prompt tweak is a gamble. Step 5 fixes that.",
     topics: [
       {
         id: "step4-1",
@@ -833,6 +838,7 @@ export const roadmapData: Step[] = [
     id: 5,
     title: "Observability and Evaluations (Evals)",
     description: "Build robust tracking and evaluation pipelines. Measure LLM application latency, run rules-based regression tests, and apply automated guardrails.",
+    capstone: "Instrument it: Langfuse traces on every call, an eval dataset built from your real queries, an LLM judge for the fuzzy cases, guardrails at the edges. Now you can change prompts without fear — which means it's ready for people who aren't you. Step 6 makes that real.",
     topics: [
       {
         id: "step5-1",
@@ -1002,6 +1008,7 @@ export const roadmapData: Step[] = [
     id: 6,
     title: "Build and Ship Full-Stack Projects",
     description: "Consolidate your knowledge into end-to-end full-stack applications. Ingest and schedule summaries, build chat interfaces, and deploy your code to production systems.",
+    capstone: "Ship it: a chat UI in front, accounts and saved history behind it, scheduled ingestion keeping the knowledge fresh, deployed to a real URL. The capstone is complete — and it goes in your portfolio as a link, not a slide deck.",
     topics: [
       {
         id: "step6-1",

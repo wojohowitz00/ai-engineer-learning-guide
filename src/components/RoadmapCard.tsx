@@ -70,6 +70,14 @@ export default function RoadmapCard({
           </div>
           <h3 className="text-2xl font-serif font-bold text-[#1A1A1A] tracking-tight">{step.title}</h3>
           <p className="text-sm text-neutral-600 max-w-2xl leading-relaxed">{step.description}</p>
+
+          {/* Capstone thread: the learner's evolving project at this step */}
+          {step.capstone && (
+            <div className="mt-3 p-3.5 bg-[#FDFCF8] border border-[#1A1A1A]/60 max-w-2xl">
+              <p className="text-[10px] font-bold font-mono text-[#3E5C76] uppercase tracking-widest mb-1">Your Project This Step</p>
+              <p className="text-sm text-neutral-700 leading-relaxed">{step.capstone}</p>
+            </div>
+          )}
         </div>
 
         {/* Step Progress indicators */}
