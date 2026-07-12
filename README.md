@@ -41,7 +41,7 @@ cp .env.example .env
 npm run dev             # http://localhost:3000 (Ollama must be running)
 ```
 
-The AI features (Study Buddy explain/quiz/interview) talk to any OpenAI-compatible server. By default that's a local Ollama at `http://localhost:11434/v1` with the `gemma3` model — set `LLM_MODEL` to use another local model, or `LLM_BASE_URL` to point at LM Studio (`http://localhost:1234/v1`). To use hosted models instead, set `OPENROUTER_API_KEY` and the app switches to [OpenRouter](https://openrouter.ai) automatically. The quiz feature requires structured-output (`json_schema`) support — if quiz generation fails under your model, pin `LLM_QUIZ_MODEL` to a schema-capable one.
+The AI features (Study Buddy explain/quiz/interview) talk to any OpenAI-compatible server. By default that's a local Ollama at `http://localhost:11434/v1` with the `gemma3` model — set `LLM_MODEL` to use another local model, or `LLM_BASE_URL` to point at LM Studio (`http://localhost:1234/v1`). For hosted serving — e.g. deploying to a VPS that can't store model weights — set `OLLAMA_API_KEY` (from [ollama.com/settings/keys](https://ollama.com/settings/keys)) and the app switches to [Ollama Cloud](https://docs.ollama.com/cloud) automatically, using the same model ids; setting `OPENROUTER_API_KEY` instead selects [OpenRouter](https://openrouter.ai). The quiz feature requires structured-output (`json_schema`) support — if quiz generation fails under your model, pin `LLM_QUIZ_MODEL` to a schema-capable one.
 
 ## Scripts
 

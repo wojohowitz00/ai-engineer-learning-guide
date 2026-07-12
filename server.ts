@@ -41,18 +41,28 @@ function sanitizeHook(value: unknown): string {
     : "";
 }
 
-// Any OpenAI-compatible server works: Ollama (free local models — the default),
-// LM Studio (http://localhost:1234/v1), or OpenRouter. Resolution order:
-// explicit LLM_BASE_URL wins; else an OPENROUTER_API_KEY implies OpenRouter
-// (backwards compatible); else local Ollama.
+// Any OpenAI-compatible server works: Ollama local (free models — the default),
+// Ollama Cloud (https://docs.ollama.com/cloud — for hosts that can't store
+// model weights), LM Studio (http://localhost:1234/v1), or OpenRouter.
+// Resolution order: explicit LLM_BASE_URL wins; else OLLAMA_API_KEY implies
+// Ollama Cloud; else OPENROUTER_API_KEY implies OpenRouter (backwards
+// compatible); else local Ollama.
 const LLM_BASE_URL =
   process.env.LLM_BASE_URL ||
-  (process.env.OPENROUTER_API_KEY ? "https://openrouter.ai/api/v1" : "http://localhost:11434/v1");
+  (process.env.OLLAMA_API_KEY
+    ? "https://ollama.com/v1"
+    : process.env.OPENROUTER_API_KEY
+      ? "https://openrouter.ai/api/v1"
+      : "http://localhost:11434/v1");
 const IS_OPENROUTER = LLM_BASE_URL.includes("openrouter.ai");
-// Local servers ignore the key; OpenRouter requires one.
-const LLM_API_KEY = process.env.LLM_API_KEY || process.env.OPENROUTER_API_KEY || "not-needed";
+const IS_OLLAMA_CLOUD = LLM_BASE_URL.includes("ollama.com");
+// Local servers ignore the key; Ollama Cloud and OpenRouter require one.
+const LLM_API_KEY =
+  process.env.LLM_API_KEY || process.env.OLLAMA_API_KEY || process.env.OPENROUTER_API_KEY || "not-needed";
 const MODEL =
-  process.env.LLM_MODEL || process.env.OPENROUTER_MODEL || (IS_OPENROUTER ? "openrouter/auto" : "gemma3");
+  process.env.LLM_MODEL ||
+  process.env.OPENROUTER_MODEL ||
+  (IS_OPENROUTER ? "openrouter/auto" : IS_OLLAMA_CLOUD ? "gemma3:12b" : "gemma3");
 // The quiz endpoint requires json_schema structured-output support —
 // pin a schema-capable model separately if quizzes ever fail.
 const QUIZ_MODEL = process.env.LLM_QUIZ_MODEL || process.env.OPENROUTER_QUIZ_MODEL || MODEL;
