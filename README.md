@@ -11,7 +11,7 @@ Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept 
 This project stands on two pieces of work by others:
 
 - **The roadmap.** This guide uses **Dave Ebbelaar**'s six-step roadmap as its structure: the steps and their topic breakdown come from his video ["How to Go From Data Scientist to AI Engineer (I Did This)"](https://www.youtube.com/watch?v=yAOzupIW87E) and the companion roadmap [`ds-ml-to-ai-engineer-2026.md`](https://github.com/daveebbelaar/ai-cookbook/tree/main/roadmaps) in his MIT-licensed [ai-cookbook](https://github.com/daveebbelaar/ai-cookbook) repository. **The learning resources, however, are our own** — every one of the 122 links was independently selected, verified, and audited for this project rather than taken from the roadmap. If this guide is useful to you, his channel and cookbook are the primary sources — go subscribe and star them.
-- **The learning philosophy.** The pull-based framing — the Depth Zero "solve one real problem today" on-ramp, per-topic motivation hooks, and the start-here/go-deeper resource minimalism — was inspired by the video ["How I'd Learn AI in 2026 From Scratch — BACKWARDS"](https://www.youtube.com/watch?v=Wx8r6ZEEjz0) and its companion one-page map, adapted here for an audience that already has engineering scar tissue to anchor to.
+- **The learning philosophy.** The pull-based framing — the Depth Zero "solve one real problem today" on-ramp, per-topic motivation hooks, and the start-here/go-deeper resource minimalism — was inspired by the video ["How I'd Learn AI in 2026 From Scratch — BACKWARDS"](https://www.youtube.com/watch?v=Wx8r6ZEEjz0), adapted here for an audience that already has engineering scar tissue to anchor to.
 
 What is original to this project: the interactive application itself, the resource curation and link audit, the wording of all motivation hooks and capstone copy, and the AI Study Buddy. This project is not affiliated with or endorsed by either creator.
 
@@ -62,3 +62,7 @@ By default all AI features use [OpenRouter's Auto Router](https://openrouter.ai/
 ## Content maintenance
 
 The resource list was audited 2026-07-11 (see `docs/content-audit/SUMMARY.md`); resources added since were verified individually at the time of addition. Fast-moving entries worth periodic re-checks: DeepLearning.AI "free during beta" courses, Medium-hosted articles, and anything tied to a specific SDK version.
+
+## License
+
+Everything in this repository — the application code and the free curriculum — is released under the [MIT License](LICENSE). Planned premium features (pull-motivated learning modules, deeper roadmap tiers) will be developed and served separately under a commercial license and are not part of this repository.
