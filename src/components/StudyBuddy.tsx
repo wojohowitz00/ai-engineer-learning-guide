@@ -127,7 +127,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, stepTitle, whenYouNeedThis })
       });
-      if (!response.ok) throw new Error("Failed to load explanation. Please check your network or OPENROUTER_API_KEY.");
+      if (!response.ok) throw new Error("Failed to load explanation. Please check your network or LLM server configuration (see .env.example).");
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       setExplanation(data.content || "");
@@ -155,7 +155,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, topicId })
       });
-      if (!response.ok) throw new Error("Failed to load quiz. Please check your network or OPENROUTER_API_KEY.");
+      if (!response.ok) throw new Error("Failed to load quiz. Please check your network or LLM server configuration (see .env.example).");
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       setQuiz(data);

@@ -26,11 +26,7 @@ app.use(
 // Log full errors server-side; return only safe, actionable messages to the client.
 function respondError(res: express.Response, context: string, error: unknown, fallback: string) {
   console.error(`Error in ${context}:`, error);
-  const message =
-    error instanceof Error && error.message.startsWith("OPENROUTER_API_KEY")
-      ? error.message
-      : fallback;
-  res.status(500).json({ error: message });
+  res.status(500).json({ error: fallback });
 }
 
 function isValidTitle(value: unknown): value is string {
@@ -45,32 +41,34 @@ function sanitizeHook(value: unknown): string {
     : "";
 }
 
-// Models are routed through OpenRouter; override per-deployment without code changes.
-// Default is the Auto Router, which picks the best model per prompt.
-const MODEL = process.env.OPENROUTER_MODEL || "openrouter/auto";
-// The quiz endpoint requires strict json_schema support, which auto-selected
-// models are not guaranteed to have — pin it separately if quizzes ever fail.
-const QUIZ_MODEL = process.env.OPENROUTER_QUIZ_MODEL || MODEL;
+// Any OpenAI-compatible server works: Ollama (free local models — the default),
+// LM Studio (http://localhost:1234/v1), or OpenRouter. Resolution order:
+// explicit LLM_BASE_URL wins; else an OPENROUTER_API_KEY implies OpenRouter
+// (backwards compatible); else local Ollama.
+const LLM_BASE_URL =
+  process.env.LLM_BASE_URL ||
+  (process.env.OPENROUTER_API_KEY ? "https://openrouter.ai/api/v1" : "http://localhost:11434/v1");
+const IS_OPENROUTER = LLM_BASE_URL.includes("openrouter.ai");
+// Local servers ignore the key; OpenRouter requires one.
+const LLM_API_KEY = process.env.LLM_API_KEY || process.env.OPENROUTER_API_KEY || "not-needed";
+const MODEL =
+  process.env.LLM_MODEL || process.env.OPENROUTER_MODEL || (IS_OPENROUTER ? "openrouter/auto" : "gemma3");
+// The quiz endpoint requires json_schema structured-output support —
+// pin a schema-capable model separately if quizzes ever fail.
+const QUIZ_MODEL = process.env.LLM_QUIZ_MODEL || process.env.OPENROUTER_QUIZ_MODEL || MODEL;
 // Cap output per request: bounds cost, and without it OpenRouter pre-checks
 // affordability against the routed model's full output window (65k+) — which
 // 402s on keys with modest credit limits.
 const MAX_OUTPUT_TOKENS = 2048;
 
-// Lazy-initialize the client to prevent startup crashes if OPENROUTER_API_KEY is initially missing
 let aiClient: OpenAI | null = null;
 
 function getAI(): OpenAI {
   if (!aiClient) {
-    const key = process.env.OPENROUTER_API_KEY;
-    if (!key) {
-      throw new Error("OPENROUTER_API_KEY is not defined in environment variables. Add it to .env (see .env.example).");
-    }
     aiClient = new OpenAI({
-      baseURL: "https://openrouter.ai/api/v1",
-      apiKey: key,
-      defaultHeaders: {
-        "X-OpenRouter-Title": "AI Engineer Learning Guide",
-      },
+      baseURL: LLM_BASE_URL,
+      apiKey: LLM_API_KEY,
+      defaultHeaders: IS_OPENROUTER ? { "X-OpenRouter-Title": "AI Engineer Learning Guide" } : undefined,
     });
   }
   return aiClient;

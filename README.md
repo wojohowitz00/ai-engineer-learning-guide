@@ -28,19 +28,20 @@ What is original to this project: the interactive application itself, the resour
 
 - **UI**: React 19, Tailwind CSS v4, lucide-react, motion
 - **Server**: Express + Vite middleware (dev) / static build (prod)
-- **LLM**: [OpenRouter](https://openrouter.ai) via the OpenAI SDK — any supported model, one API key, no provider lock-in
+- **LLM**: any OpenAI-compatible server via the OpenAI SDK — [Ollama](https://ollama.com) by default (free local models like Gemma, no API key), with [LM Studio](https://lmstudio.ai) and [OpenRouter](https://openrouter.ai) as drop-in alternatives
 
 ## Run locally
 
-Prerequisites: Node.js 20+
+Prerequisites: Node.js 20+, and [Ollama](https://ollama.com) for the AI features (free, local — no API key)
 
 ```bash
+ollama pull gemma3      # any chat model works; gemma3 is the default
 npm install
-cp .env.example .env    # then set OPENROUTER_API_KEY (https://openrouter.ai/keys)
-npm run dev             # http://localhost:3000
+cp .env.example .env
+npm run dev             # http://localhost:3000 (Ollama must be running)
 ```
 
-By default all AI features use [OpenRouter's Auto Router](https://openrouter.ai/docs/guides/routing/routers/auto-router) (`openrouter/auto`), which picks the best model per prompt. To pin a specific model, set `OPENROUTER_MODEL` to any [OpenRouter model id](https://openrouter.ai/models). The quiz feature requires strict structured-output (`json_schema`) support — if quiz generation fails under the Auto Router, pin `OPENROUTER_QUIZ_MODEL` to a schema-capable model (e.g. `google/gemini-3.5-flash`).
+The AI features (Study Buddy explain/quiz/interview) talk to any OpenAI-compatible server. By default that's a local Ollama at `http://localhost:11434/v1` with the `gemma3` model — set `LLM_MODEL` to use another local model, or `LLM_BASE_URL` to point at LM Studio (`http://localhost:1234/v1`). To use hosted models instead, set `OPENROUTER_API_KEY` and the app switches to [OpenRouter](https://openrouter.ai) automatically. The quiz feature requires structured-output (`json_schema`) support — if quiz generation fails under your model, pin `LLM_QUIZ_MODEL` to a schema-capable one.
 
 ## Scripts
 
