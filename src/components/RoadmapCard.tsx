@@ -83,10 +83,12 @@ export default function RoadmapCard({
               {/* Locked premium teaser: marketing data only, hidden when no premium service is configured */}
               {premiumTeaser && (
                 <div className="mt-2.5 pt-2.5 border-t border-[#1A1A1A]/15 flex items-start gap-2">
-                  <Lock className="w-3.5 h-3.5 text-[#3E5C76] shrink-0 mt-0.5" />
+                  <Lock className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
                   <p className="text-xs text-neutral-600 leading-relaxed">
-                    <span className="font-bold font-mono text-[10px] uppercase tracking-widest text-[#3E5C76] mr-1.5">Premium</span>
-                    Guided module: <span className="font-semibold text-[#1A1A1A]">{premiumTeaser.title}</span> — {premiumTeaser.milestoneCount} milestones, ~{premiumTeaser.estimatedHours}h of guided build.
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 mr-1.5 bg-amber-100 border border-amber-800 text-amber-900 text-[9px] font-bold uppercase tracking-wider rounded-none align-middle">
+                      Paid · Premium
+                    </span>
+                    Guided module: <span className="font-semibold text-[#1A1A1A]">{premiumTeaser.title}</span> — {premiumTeaser.milestoneCount} milestones, ~{premiumTeaser.estimatedHours}h. Part of the paid Premium tier (coming soon); this roadmap and all its resources stay free.
                   </p>
                 </div>
               )}

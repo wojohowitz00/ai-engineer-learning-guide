@@ -196,7 +196,7 @@ export default function App() {
             </h1>
             <p className="text-sm md:text-base text-neutral-600 max-w-3xl leading-relaxed">
               Transition from writing code — as a developer, data scientist, or analyst — to production-style AI Engineering. Learn structured projects, prompt engineering, agent construction, production backends, robust RAG systems, evaluations, and mock-interview practices.
-              Nearly every featured resource is <strong className="text-[#1A1A1A] font-bold underline underline-offset-4 decoration-[#3E5C76]">completely free</strong> — the handful of membership-gated picks are marked with a paywall badge, and each sits alongside a free alternative.
+              The roadmap and <strong className="text-[#1A1A1A] font-bold underline underline-offset-4 decoration-[#3E5C76]">every featured resource are free</strong> — the handful of third-party membership-gated picks carry a paywall badge, each with a free alternative beside it. Optional guided capstone modules, marked <span className="inline-flex items-center px-1.5 py-0.5 bg-amber-100 border border-amber-800 text-amber-900 text-[10px] font-bold uppercase tracking-wider rounded-none align-middle">Paid · Premium</span>, are a separate paid tier.
             </p>
           </div>
 
