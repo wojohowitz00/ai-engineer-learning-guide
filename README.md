@@ -63,6 +63,6 @@ By default all AI features use [OpenRouter's Auto Router](https://openrouter.ai/
 
 The resource list was audited 2026-07-11 (see `docs/content-audit/SUMMARY.md`); resources added since were verified individually at the time of addition. Fast-moving entries worth periodic re-checks: DeepLearning.AI "free during beta" courses, Medium-hosted articles, and anything tied to a specific SDK version.
 
-## License
+## License & free-forever guarantee
 
-Everything in this repository — the application code and the free curriculum — is released under the [MIT License](LICENSE). Planned premium features (pull-motivated learning modules, deeper roadmap tiers) will be developed and served separately under a commercial license and are not part of this repository.
+Everything in this repository — the application code and the complete current guide (the roadmap, every motivation hook, all 122 resources, the capstone thread, and the AI Study Buddy) — is released under the [MIT License](LICENSE) and will remain free. A premium tier is planned as *new, additional* material — guided capstone modules, expanded learning content, and enhanced Study Buddy features — developed and served separately under a commercial license, outside this repository. Nothing that is free today will move behind a paywall.
