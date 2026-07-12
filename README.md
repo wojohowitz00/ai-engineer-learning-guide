@@ -1,8 +1,28 @@
 # AI Engineer Learning Guide
 
-An interactive roadmap for data scientists transitioning to AI engineering. A "Depth Zero" on-ramp (ship something with an LLM on day one) plus six steps, 28 topics, 122 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives. Each topic opens with a pull-motivation hook anchored in applied data science pain, and marks one "start here" resource with the rest collapsed behind a "go deeper" toggle.
+An interactive learning roadmap for data scientists transitioning to AI engineering. A "Depth Zero" on-ramp (ship something with an LLM on day one) plus six steps, 28 topics, and 122 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives.
 
-Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept explanations, generated multiple-choice quizzes, and a chat-based mock interview. Progress (completed topics, bookmarks, quiz scores) persists in `localStorage` — no accounts.
+The guide is built around **pull-based learning**: every topic opens with a motivation hook anchored in a pain point you have already felt in applied data science work, one "start here" resource is marked per topic (the rest collapse behind a "go deeper" toggle), and a capstone project thread runs through all the steps — each step's deliverable deliberately ends on the weakness the next step fixes.
+
+Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept explanations, generated multiple-choice quizzes, and a chat-based mock interview — all anchored in the same motivating scenarios. Progress (completed topics, bookmarks, quiz scores) persists in `localStorage` — no accounts.
+
+## Inspiration & attribution
+
+This project stands on two pieces of work by others:
+
+- **The curriculum.** The six-step structure — close the software engineering gap → the LLM-specific layer → production-ready backends → RAG → evals & observability → ship projects — and the per-step topic selection are adapted directly from **Dave Ebbelaar**'s video ["How to Go From Data Scientist to AI Engineer (I Did This)"](https://www.youtube.com/watch?v=yAOzupIW87E) and the companion roadmap [`ds-ml-to-ai-engineer-2026.md`](https://github.com/daveebbelaar/ai-cookbook/tree/main/roadmaps) in his MIT-licensed [ai-cookbook](https://github.com/daveebbelaar/ai-cookbook) repository. If this guide is useful to you, his channel and cookbook are the primary sources — go subscribe and star them.
+- **The learning philosophy.** The pull-based framing — the Depth Zero "solve one real problem today" on-ramp, per-topic motivation hooks, and the start-here/go-deeper resource minimalism — was inspired by the video ["How I'd Learn AI in 2026 From Scratch — BACKWARDS"](https://www.youtube.com/watch?v=Wx8r6ZEEjz0), adapted here for an audience that already has data science scar tissue to anchor to.
+
+What is original to this project: the interactive application itself, the resource curation and link audit (121 of the 122 resources were selected and verified independently of the sources above), the wording of all motivation hooks and capstone copy, and the AI Study Buddy. This project is not affiliated with or endorsed by either creator.
+
+## Features
+
+- **Depth Zero on-ramp** — ship something real with an LLM before starting the curriculum
+- **Pull-motivation hooks** — every topic opens with the data-science pain point that makes it necessary
+- **Start here / go deeper** — one recommended entry resource per topic; the rest a click away
+- **Capstone thread** — one evolving project (a personal research assistant over your own documents) spanning every step
+- **AI Study Buddy** — concept explanations, generated quizzes, and mock interviews per topic, via any OpenRouter model
+- **Progress tracking** — completions, bookmarks, and quiz scores in `localStorage`; no accounts, no backend state
 
 ## Stack
 
@@ -38,8 +58,7 @@ By default all AI features use [OpenRouter's Auto Router](https://openrouter.ai/
 - `server.ts` — Express server with three LLM endpoints: `/api/ai/explain`, `/api/ai/quiz`, `/api/ai/interview`
 - `docs/code-analysis.md` — baseline architecture notes
 - `docs/content-audit/` — per-step link audit reports and consolidated summary
-- `.beads/` — issue tracking (`bd ready` to see open work)
 
 ## Content maintenance
 
-The resource list was audited 2026-07-11 (see `docs/content-audit/SUMMARY.md`). Fast-moving entries worth periodic re-checks: DeepLearning.AI "free during beta" courses, Medium-hosted articles, and anything tied to a specific SDK version.
+The resource list was audited 2026-07-11 (see `docs/content-audit/SUMMARY.md`); resources added since were verified individually at the time of addition. Fast-moving entries worth periodic re-checks: DeepLearning.AI "free during beta" courses, Medium-hosted articles, and anything tied to a specific SDK version.
