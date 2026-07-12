@@ -11,3 +11,6 @@ coverage/
 .dolt/
 *.db
 .beads-credential-key
+
+# Third-party video transcript kept as local reference only — do not republish
+How I*d Learn AI in 2026 From Scratch*.txt
