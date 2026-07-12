@@ -1,6 +1,6 @@
 # AI Engineer Learning Guide
 
-An interactive roadmap for data scientists transitioning to AI engineering. Six steps, 27 topics, 120 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives.
+An interactive roadmap for data scientists transitioning to AI engineering. A "Depth Zero" on-ramp (ship something with an LLM on day one) plus six steps, 28 topics, 122 curated resources — every link individually verified (liveness, free access, currency), with the few membership-gated picks flagged by a paywall badge and paired with free alternatives. Each topic opens with a pull-motivation hook anchored in applied data science pain, and marks one "start here" resource with the rest collapsed behind a "go deeper" toggle.
 
 Alongside the curriculum, an **AI Study Buddy** drawer offers per-topic concept explanations, generated multiple-choice quizzes, and a chat-based mock interview. Progress (completed topics, bookmarks, quiz scores) persists in `localStorage` — no accounts.
 

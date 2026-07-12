@@ -2,6 +2,36 @@ import { Step } from './types';
 
 export const roadmapData: Step[] = [
   {
+    id: 0,
+    title: "Depth Zero: Ship Something Today",
+    description: "Before the curriculum: pick one real, annoying problem from your own work and solve it end-to-end with an LLM — today, in a chat interface, no code required. What you build becomes your compass for every step below, and the walls you hit become your reasons to learn them.",
+    topics: [
+      {
+        id: "step0-1",
+        title: "Solve one real problem end-to-end with an LLM",
+        whenYouNeedThis:
+          "The best predictor of finishing this guide isn't what you already know — it's whether you ship something real in your first week. The Monday report you rebuild by hand, the inbox you can't clear, the spreadsheet nobody understands: pick one, paste in the mess, push back when the model is wrong, and don't stop until it's genuinely done.",
+        resources: [
+          {
+            title: "Getting Started with AI: Good Enough Prompting",
+            primary: true,
+            url: "https://www.oneusefulthing.org/p/getting-started-with-ai-good-enough",
+            type: "blog",
+            platform: "One Useful Thing (Ethan Mollick)",
+            description: "Don't make this hard: treat the model like an infinitely patient coworker who forgets everything, start inside your own expertise, and learn by doing real work — no formal prompt training required."
+          },
+          {
+            title: "15 Times to Use AI, and 5 Not to",
+            url: "https://www.oneusefulthing.org/p/15-times-to-use-ai-and-5-not-to",
+            type: "blog",
+            platform: "One Useful Thing (Ethan Mollick)",
+            description: "How to choose that first problem wisely: the tasks where AI genuinely helps (and you can verify it), and the ones where it will waste your time."
+          }
+        ]
+      }
+    ]
+  },
+  {
     id: 1,
     title: "Close the Software Engineering Gap",
     description: "Move from interactive scripting in notebooks to building robust, modular, production-grade applications with software engineering best practices.",
