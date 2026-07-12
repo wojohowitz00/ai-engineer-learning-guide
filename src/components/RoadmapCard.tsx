@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Step, Topic, Resource, UserProgress } from "../types";
 import {
   CheckCircle2, Bookmark, BookmarkCheck, ExternalLink,
   Sparkles, Video, BookOpen, GraduationCap, Code,
-  FileText, Award, Lock
+  FileText, Award, Lock, ChevronDown, ChevronUp
 } from "lucide-react";
 
 interface RoadmapCardProps {
@@ -21,7 +21,16 @@ export default function RoadmapCard({
   onToggleBookmark,
   onOpenStudyBuddy
 }: RoadmapCardProps) {
-  
+
+  // Topics whose full resource list is shown despite having a "start here" primary resource
+  const [expandedTopicIds, setExpandedTopicIds] = useState<string[]>([]);
+
+  const toggleExpanded = (topicId: string) => {
+    setExpandedTopicIds(prev =>
+      prev.includes(topicId) ? prev.filter(id => id !== topicId) : [...prev, topicId]
+    );
+  };
+
   // Calculate completion percentage for this step
   const totalTopics = step.topics.length;
   const completedTopicsInStep = step.topics.filter(t => progress.completedTopicIds.includes(t.id)).length;
@@ -98,6 +107,15 @@ export default function RoadmapCard({
           const isTopicCompleted = progress.completedTopicIds.includes(topic.id);
           const currentQuizScore = progress.quizScores[topic.id];
 
+          // "Start here" resource first; without one, the topic shows all resources uncollapsed
+          const primaryResource = topic.resources.find(r => r.primary);
+          const orderedResources = primaryResource
+            ? [primaryResource, ...topic.resources.filter(r => r !== primaryResource)]
+            : topic.resources;
+          const isExpanded = !primaryResource || expandedTopicIds.includes(topic.id);
+          const visibleResources = isExpanded ? orderedResources : [primaryResource!];
+          const hiddenCount = orderedResources.length - visibleResources.length;
+
           return (
             <div key={topic.id} className="p-6 md:p-8 space-y-5 hover:bg-[#F2EFE9]/20 transition-colors">
               
@@ -123,7 +141,14 @@ export default function RoadmapCard({
                     }`}>
                       {topic.title}
                     </h4>
-                    
+
+                    {/* Pull motivation: the pain point that makes this topic necessary */}
+                    {topic.whenYouNeedThis && (
+                      <p className="text-sm text-neutral-600 leading-relaxed italic border-l-2 border-[#3E5C76] pl-3 max-w-2xl">
+                        {topic.whenYouNeedThis}
+                      </p>
+                    )}
+
                     {/* Scores and indicators */}
                     {currentQuizScore && (
                       <div className="inline-flex items-center gap-1.5 text-[10px] font-bold font-mono text-[#FDFCF8] bg-emerald-800 border border-emerald-800 px-2.5 py-0.5 rounded-none shadow-none uppercase tracking-wider">
@@ -146,7 +171,7 @@ export default function RoadmapCard({
 
               {/* Topic Resource Links */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {topic.resources.map((resource, rIdx) => {
+                {visibleResources.map((resource, rIdx) => {
                   const isBookmarked = progress.bookmarkedUrls.includes(resource.url);
 
                   return (
@@ -160,6 +185,11 @@ export default function RoadmapCard({
                           <span className="flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A]/60 font-mono">
                             {getResourceIcon(resource.type)}
                             {resource.platform}
+                            {resource.primary && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 bg-[#3E5C76] text-[#FDFCF8] text-[9px] font-bold uppercase tracking-wider rounded-none">
+                                Start here
+                              </span>
+                            )}
                             {resource.paywall && (
                               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 border border-amber-800 text-amber-900 text-[9px] font-bold uppercase tracking-wider rounded-none">
                                 <Lock className="w-2.5 h-2.5" />
@@ -210,6 +240,26 @@ export default function RoadmapCard({
                   );
                 })}
               </div>
+
+              {/* Go deeper toggle for topics with a "start here" resource */}
+              {primaryResource && topic.resources.length > 1 && (
+                <button
+                  onClick={() => toggleExpanded(topic.id)}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold font-mono uppercase tracking-wider border border-[#1A1A1A]/40 hover:border-[#1A1A1A] text-[#1A1A1A]/70 hover:text-[#1A1A1A] rounded-none transition"
+                >
+                  {isExpanded ? (
+                    <>
+                      <ChevronUp className="w-3.5 h-3.5" />
+                      Show fewer resources
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3.5 h-3.5" />
+                      Go deeper — {hiddenCount} more {hiddenCount === 1 ? "resource" : "resources"}
+                    </>
+                  )}
+                </button>
+              )}
 
             </div>
           );

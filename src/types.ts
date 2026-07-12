@@ -6,11 +6,15 @@ export interface Resource {
   description: string;
   /** Requires paid membership/enrollment for the described content. Shown as a badge in the UI. */
   paywall?: boolean;
+  /** The recommended entry point for its topic. Rendered first with a "Start here" badge; the topic's remaining resources collapse behind a "Go deeper" toggle. At most one per topic. */
+  primary?: boolean;
 }
 
 export interface Topic {
   id: string;
   title: string;
+  /** Pull motivation: a pain point from applied data science work the reader has likely already felt, shown above the resource list. */
+  whenYouNeedThis?: string;
   resources: Resource[];
 }
 
