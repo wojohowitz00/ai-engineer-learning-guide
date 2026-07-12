@@ -11,7 +11,7 @@ interface RoadmapCardProps {
   progress: UserProgress;
   onToggleTopic: (topicId: string) => void;
   onToggleBookmark: (url: string) => void;
-  onOpenStudyBuddy: (topicId: string, topicTitle: string, stepTitle: string) => void;
+  onOpenStudyBuddy: (topicId: string, topicTitle: string, stepTitle: string, whenYouNeedThis?: string) => void;
 }
 
 export default function RoadmapCard({
@@ -169,7 +169,7 @@ export default function RoadmapCard({
 
                 {/* AI Study Companion Button */}
                 <button
-                  onClick={() => onOpenStudyBuddy(topic.id, topic.title, step.title)}
+                  onClick={() => onOpenStudyBuddy(topic.id, topic.title, step.title, topic.whenYouNeedThis)}
                   className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-none text-[11px] font-bold uppercase tracking-wider text-[#FDFCF8] bg-[#1A1A1A] border border-[#1A1A1A] hover:bg-neutral-800 hover:border-neutral-800 active:scale-95 transition self-start sm:self-center"
                 >
                   <Sparkles className="w-3.5 h-3.5" />

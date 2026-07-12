@@ -13,6 +13,7 @@ interface StudyBuddyProps {
   topicId: string;
   topicTitle: string;
   stepTitle: string;
+  whenYouNeedThis?: string;
   onQuizCompleted: (score: number, total: number) => void;
   currentQuizScore?: { score: number; total: number; date: string };
 }
@@ -25,6 +26,7 @@ export default function StudyBuddy({
   topicId,
   topicTitle,
   stepTitle,
+  whenYouNeedThis,
   onQuizCompleted,
   currentQuizScore
 }: StudyBuddyProps) {
@@ -123,7 +125,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
       const response = await fetch("/api/ai/explain", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topicTitle, stepTitle })
+        body: JSON.stringify({ topicTitle, stepTitle, whenYouNeedThis })
       });
       if (!response.ok) throw new Error("Failed to load explanation. Please check your network or OPENROUTER_API_KEY.");
       const data = await response.json();
@@ -176,6 +178,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           topicTitle,
+          whenYouNeedThis,
           messages: history
         })
       });

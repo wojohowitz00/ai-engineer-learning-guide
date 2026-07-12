@@ -37,6 +37,14 @@ function isValidTitle(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= 300;
 }
 
+// Optional pull-motivation hook sent by the client (Topic.whenYouNeedThis).
+// Flavor only — drop silently rather than reject when invalid.
+function sanitizeHook(value: unknown): string {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= 600
+    ? value.trim()
+    : "";
+}
+
 // Models are routed through OpenRouter; override per-deployment without code changes.
 // Default is the Auto Router, which picks the best model per prompt.
 const MODEL = process.env.OPENROUTER_MODEL || "openrouter/auto";
@@ -71,11 +79,12 @@ function getAI(): OpenAI {
 // Endpoint: Explain a topic
 app.post("/api/ai/explain", async (req, res, next) => {
   try {
-    const { topicTitle, stepTitle } = req.body;
+    const { topicTitle, stepTitle, whenYouNeedThis } = req.body;
     if (!isValidTitle(topicTitle)) {
       res.status(400).json({ error: "topicTitle is required (string, max 300 chars)" });
       return;
     }
+    const hook = sanitizeHook(whenYouNeedThis);
 
     const ai = getAI();
     const response = await ai.chat.completions.create({
@@ -85,6 +94,8 @@ app.post("/api/ai/explain", async (req, res, next) => {
         {
           role: "user",
           content: `Explain the topic "${topicTitle}" which is part of the learning step "${isValidTitle(stepTitle) ? stepTitle : ""}".
+The learner is a data scientist transitioning to AI engineering.${hook ? `
+Open by connecting the concept to this scenario the learner has already lived through: "${hook}". Anchor the rest of the explanation in that pain point.` : ""}
 Provide a clear, high-quality, professional, and beginner-friendly explanation.
 Include:
 1. A brief high-level concept summary.
@@ -180,7 +191,7 @@ For each question, provide:
 // Endpoint: AI Interview Prep (Chat-based mock interview)
 app.post("/api/ai/interview", async (req, res, next) => {
   try {
-    const { topicTitle, messages } = req.body;
+    const { topicTitle, messages, whenYouNeedThis } = req.body;
     if (!isValidTitle(topicTitle)) {
       res.status(400).json({ error: "topicTitle is required (string, max 300 chars)" });
       return;
@@ -189,11 +200,13 @@ app.post("/api/ai/interview", async (req, res, next) => {
       res.status(400).json({ error: "messages must be an array" });
       return;
     }
+    const hook = sanitizeHook(whenYouNeedThis);
 
     const ai = getAI();
 
-    const systemInstruction = `You are a Lead AI Engineer mock-interviewing a candidate.
-The current topic under discussion is "${topicTitle}".
+    const systemInstruction = `You are a Lead AI Engineer mock-interviewing a candidate who is transitioning from data science to AI engineering.
+The current topic under discussion is "${topicTitle}".${hook ? `
+The candidate's motivating scenario for this topic: "${hook}". Ground at least one question in a situation like it.` : ""}
 Your task is to ask challenging technical, design, or behavioral interview questions regarding "${topicTitle}" to test the candidate's proficiency.
 Keep your responses professional, constructive, and realistic of an engineering interview.
 Always give constructive, actionable feedback on their answers, and follow up with a fresh question, or wind down the interview nicely if it reaches a natural conclusion.

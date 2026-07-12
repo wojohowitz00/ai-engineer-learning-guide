@@ -24,7 +24,7 @@ export default function App() {
 
   // AI Study Companion Drawer state
   const [isCompanionOpen, setIsCompanionOpen] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState<{ id: string; title: string; stepTitle: string } | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<{ id: string; title: string; stepTitle: string; whenYouNeedThis?: string } | null>(null);
 
   // Load progress from LocalStorage
   useEffect(() => {
@@ -101,8 +101,8 @@ export default function App() {
   };
 
   // Trigger Study Companion
-  const handleOpenStudyBuddy = (topicId: string, topicTitle: string, stepTitle: string) => {
-    setSelectedTopic({ id: topicId, title: topicTitle, stepTitle });
+  const handleOpenStudyBuddy = (topicId: string, topicTitle: string, stepTitle: string, whenYouNeedThis?: string) => {
+    setSelectedTopic({ id: topicId, title: topicTitle, stepTitle, whenYouNeedThis });
     setIsCompanionOpen(true);
   };
 
@@ -519,12 +519,17 @@ export default function App() {
                           {/* Trigger Re-evaluate */}
                           <button
                             onClick={() => {
-                              // Find corresponding step title to launch companion
+                              // Find corresponding step title and topic hook to launch companion
                               let st = "";
+                              let hook: string | undefined;
                               roadmapData.forEach(s => {
-                                if (s.topics.some(t => t.id === topicId)) st = s.title;
+                                const t = s.topics.find(t => t.id === topicId);
+                                if (t) {
+                                  st = s.title;
+                                  hook = t.whenYouNeedThis;
+                                }
                               });
-                              handleOpenStudyBuddy(topicId, topicTitle, st);
+                              handleOpenStudyBuddy(topicId, topicTitle, st, hook);
                             }}
                             className="px-3.5 py-2 text-xs font-bold border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-[#1A1A1A] bg-[#FDFCF8] transition"
                           >
@@ -565,6 +570,7 @@ export default function App() {
         topicId={selectedTopic?.id || ""}
         topicTitle={selectedTopic?.title || ""}
         stepTitle={selectedTopic?.stepTitle || ""}
+        whenYouNeedThis={selectedTopic?.whenYouNeedThis}
         onQuizCompleted={handleQuizCompleted}
         currentQuizScore={selectedTopic ? progress.quizScores[selectedTopic.id] : undefined}
       />
