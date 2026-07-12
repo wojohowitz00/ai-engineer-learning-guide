@@ -76,6 +76,36 @@ function getAI(): OpenAI {
   return aiClient;
 }
 
+// Optional premium tier: when PREMIUM_SERVICE_URL is set, relay that service's
+// public teasers (title/promise/counts only — never gated content) so the
+// client can render locked previews. Server-side fetch, so no CORS needed.
+// Unset or unreachable → empty list, and the client hides the teaser UI.
+const PREMIUM_SERVICE_URL = process.env.PREMIUM_SERVICE_URL;
+let teaserCache: { data: unknown; fetchedAt: number } | null = null;
+
+app.get("/api/premium/teasers", async (_req, res) => {
+  if (!PREMIUM_SERVICE_URL) {
+    res.json({ modules: [] });
+    return;
+  }
+  if (teaserCache && Date.now() - teaserCache.fetchedAt < 60_000) {
+    res.json(teaserCache.data);
+    return;
+  }
+  try {
+    const upstream = await fetch(`${PREMIUM_SERVICE_URL}/api/premium/teasers`, {
+      signal: AbortSignal.timeout(3000),
+    });
+    if (!upstream.ok) throw new Error(`upstream responded ${upstream.status}`);
+    const data = await upstream.json();
+    teaserCache = { data, fetchedAt: Date.now() };
+    res.json(data);
+  } catch (error) {
+    console.error("Premium teasers unavailable:", error);
+    res.json({ modules: [] });
+  }
+});
+
 // Endpoint: Explain a topic
 app.post("/api/ai/explain", async (req, res, next) => {
   try {

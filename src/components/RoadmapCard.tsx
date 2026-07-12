@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Step, Topic, Resource, UserProgress } from "../types";
+import { Step, Topic, Resource, UserProgress, PremiumTeaser } from "../types";
 import {
   CheckCircle2, Bookmark, BookmarkCheck, ExternalLink,
   Sparkles, Video, BookOpen, GraduationCap, Code,
@@ -8,6 +8,8 @@ import {
 
 interface RoadmapCardProps {
   step: Step;
+  /** Locked preview of this step's premium guided module, when a premium service is configured. */
+  premiumTeaser?: PremiumTeaser;
   progress: UserProgress;
   onToggleTopic: (topicId: string) => void;
   onToggleBookmark: (url: string) => void;
@@ -16,6 +18,7 @@ interface RoadmapCardProps {
 
 export default function RoadmapCard({
   step,
+  premiumTeaser,
   progress,
   onToggleTopic,
   onToggleBookmark,
@@ -76,6 +79,17 @@ export default function RoadmapCard({
             <div className="mt-3 p-3.5 bg-[#FDFCF8] border border-[#1A1A1A]/60 max-w-2xl">
               <p className="text-[10px] font-bold font-mono text-[#3E5C76] uppercase tracking-widest mb-1">Your Project This Step</p>
               <p className="text-sm text-neutral-700 leading-relaxed">{step.capstone}</p>
+
+              {/* Locked premium teaser: marketing data only, hidden when no premium service is configured */}
+              {premiumTeaser && (
+                <div className="mt-2.5 pt-2.5 border-t border-[#1A1A1A]/15 flex items-start gap-2">
+                  <Lock className="w-3.5 h-3.5 text-[#3E5C76] shrink-0 mt-0.5" />
+                  <p className="text-xs text-neutral-600 leading-relaxed">
+                    <span className="font-bold font-mono text-[10px] uppercase tracking-widest text-[#3E5C76] mr-1.5">Premium</span>
+                    Guided module: <span className="font-semibold text-[#1A1A1A]">{premiumTeaser.title}</span> — {premiumTeaser.milestoneCount} milestones, ~{premiumTeaser.estimatedHours}h of guided build.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

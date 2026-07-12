@@ -27,6 +27,16 @@ export interface Step {
   topics: Topic[];
 }
 
+/** Locked preview of a premium guided module, relayed from the premium service. Marketing data only. */
+export interface PremiumTeaser {
+  id: string;
+  stepId: number;
+  title: string;
+  promise: string;
+  estimatedHours: number;
+  milestoneCount: number;
+}
+
 export interface UserProgress {
   completedTopicIds: string[];
   bookmarkedUrls: string[];

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { roadmapData } from "./data";
-import { UserProgress, Step } from "./types";
+import { UserProgress, Step, PremiumTeaser } from "./types";
 import RoadmapCard from "./components/RoadmapCard";
 import StudyBuddy from "./components/StudyBuddy";
 import {
@@ -25,6 +25,21 @@ export default function App() {
   // AI Study Companion Drawer state
   const [isCompanionOpen, setIsCompanionOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<{ id: string; title: string; stepTitle: string; whenYouNeedThis?: string } | null>(null);
+
+  // Premium teasers (locked previews), keyed by step id. Empty when no
+  // premium service is configured — the UI simply doesn't render them.
+  const [premiumTeasers, setPremiumTeasers] = useState<Record<number, PremiumTeaser>>({});
+
+  useEffect(() => {
+    fetch("/api/premium/teasers")
+      .then(res => (res.ok ? res.json() : { modules: [] }))
+      .then((data: { modules?: PremiumTeaser[] }) => {
+        const byStep: Record<number, PremiumTeaser> = {};
+        (data.modules || []).forEach(t => { byStep[t.stepId] = t; });
+        setPremiumTeasers(byStep);
+      })
+      .catch(() => { /* premium teasers are optional — stay hidden */ });
+  }, []);
 
   // Load progress from LocalStorage
   useEffect(() => {
@@ -351,6 +366,7 @@ export default function App() {
                   <RoadmapCard
                     key={step.id}
                     step={step as Step}
+                    premiumTeaser={premiumTeasers[step.id]}
                     progress={progress}
                     onToggleTopic={handleToggleTopic}
                     onToggleBookmark={handleToggleBookmark}
