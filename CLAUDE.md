@@ -49,21 +49,15 @@ bd close <id>         # Complete work
 - If push fails, resolve and retry until it succeeds
 <!-- END BEADS INTEGRATION -->
 
-
 ## Build & Test
 
-_Add your build and test commands here_
+There is no unit-test suite; the quality gate is a typecheck plus a production build.
 
 ```bash
-# Example:
-# npm install
-# npm test
+npm run dev     # local dev server (tsx server.ts)
+npm run lint    # typecheck — tsc --noEmit; run this as the quality gate
+npm run build   # vite build + esbuild bundle of server.ts → dist/
+npm start       # run the built bundle — requires a prior `npm run build`
 ```
 
-## Architecture Overview
-
-_Add a brief overview of your project architecture_
-
-## Conventions & Patterns
-
-_Add your project-specific conventions here_
+`npm run export-curriculum` regenerates the iOS app's `curriculum.json` from `src/data.ts`. It writes to a hardcoded relative path, so the sibling repo must be checked out at `../ai-engineer-learning-guide-ios/`.
