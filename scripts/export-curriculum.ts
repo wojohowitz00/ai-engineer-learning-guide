@@ -16,6 +16,40 @@ if (!existsSync(dir)) {
   process.exit(1);
 }
 
+// Machine check for the "At most one [primary resource] per topic" invariant
+// documented on Resource.primary in src/types.ts.
+let hasViolations = false;
+
+const topicIdOccurrences = new Map<string, string[]>();
+for (const step of roadmapData) {
+  for (const topic of step.topics) {
+    const titles = topicIdOccurrences.get(topic.id) ?? [];
+    titles.push(topic.title);
+    topicIdOccurrences.set(topic.id, titles);
+
+    const primaryCount = topic.resources.filter((r) => r.primary === true).length;
+    if (primaryCount > 1) {
+      console.error(
+        `Topic "${topic.id}" (${topic.title}) has ${primaryCount} primary resources; at most one is allowed.`
+      );
+      hasViolations = true;
+    }
+  }
+}
+
+for (const [topicId, titles] of topicIdOccurrences) {
+  if (titles.length > 1) {
+    console.error(
+      `Topic id "${topicId}" (${titles.join(", ")}) appears ${titles.length} times across the curriculum; topic ids must be unique.`
+    );
+    hasViolations = true;
+  }
+}
+
+if (hasViolations) {
+  process.exit(1);
+}
+
 mkdirSync(dir, { recursive: true });
 writeFileSync(out, JSON.stringify({ steps: roadmapData }, null, 2) + "\n");
 
