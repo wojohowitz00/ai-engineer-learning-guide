@@ -333,7 +333,7 @@ async function setupServer() {
     app.use(vite.middlewares);
   } else {
     console.log("Starting server in production mode serving static assets...");
-    const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(process.cwd(), "dist", "client");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));

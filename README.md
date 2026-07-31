@@ -48,7 +48,7 @@ The AI features (Study Buddy explain/quiz/interview) talk to any OpenAI-compatib
 | Command | What it does |
 |---|---|
 | `npm run dev` | Dev server with Vite HMR on port 3000 |
-| `npm run build` | Production build (client to `dist/`, server to `dist/server.cjs`) |
+| `npm run build` | Production build (client to `dist/client/`, server to `dist/server.cjs`) |
 | `npm start` | Run the production build |
 | `npm run lint` | TypeScript check (`tsc --noEmit`, strict) |
 

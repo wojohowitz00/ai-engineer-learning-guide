@@ -6,6 +6,12 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      // Client assets live in dist/client so the esbuild server bundle
+      // (dist/server.cjs) stays out of anything shipped to a client —
+      // notably the Capacitor iOS app, whose webDir points here.
+      outDir: 'dist/client',
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

@@ -56,7 +56,7 @@ There is no unit-test suite; the quality gate is a typecheck plus a production b
 ```bash
 npm run dev     # local dev server (tsx server.ts)
 npm run lint    # typecheck — tsc --noEmit; run this as the quality gate
-npm run build   # vite build + esbuild bundle of server.ts → dist/
+npm run build   # vite build → dist/client/; esbuild bundle of server.ts → dist/server.cjs
 npm start       # run the built bundle — requires a prior `npm run build`
 ```
 

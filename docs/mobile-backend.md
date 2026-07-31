@@ -118,15 +118,17 @@ Three mechanisms are live in `server.ts`:
 
 ## 4. Deploying: checklist
 
-1. **Build**: `npm run build` — Vite builds the client to `dist/`, esbuild
-   bundles `server.ts` to `dist/server.cjs`.
+1. **Build**: `npm run build` — Vite builds the client to `dist/client/`, esbuild
+   bundles `server.ts` to `dist/server.cjs`. The client is kept in its own
+   subdirectory so the server bundle is never served as a static asset (and
+   never gets copied into the Capacitor app, whose `webDir` is `dist/client`).
 2. **Set environment variables** (see `.env.example`):
    - `OLLAMA_API_KEY` (recommended hosted path) — or `OPENROUTER_API_KEY`, or
      `LLM_BASE_URL` (+ `LLM_API_KEY` if the custom endpoint needs one).
    - Optionally `LLM_MODEL` / `LLM_QUIZ_MODEL` to override the resolved
      defaults.
    - `NODE_ENV=production` — required; without it, `setupServer()` starts
-     Vite middleware instead of serving `dist/` (server.ts:326-341).
+     Vite middleware instead of serving `dist/client/` (server.ts:326-341).
    - `APP_URL` — used for self-referential links.
    - `PREMIUM_SERVICE_URL` — optional; only if the premium teaser relay is
      wanted on this instance.
