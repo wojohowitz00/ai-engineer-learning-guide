@@ -33,7 +33,7 @@ Sensible choices for a prototype: key stays server-side, quiz uses `responseSche
 - `App.tsx`: "Clear Filter Filters" typo; unused icon imports (Moon, Sun, Info, Calendar, Terminal, …) — dark-mode icons with no dark mode (ai-engineer-learning-guide-egx).
 - `server.ts`: `lastUserMessage` computed and never used; raw `error.message` returned to clients; no rate limiting; interview endpoint trusts arbitrary client history (ai-engineer-learning-guide-26w, fine for local prototype).
 - `RoadmapCard.tsx`: `key?: any` declared in props interface — React `key` is not a prop and shouldn't be typed there.
-- `StudyBuddy.tsx`: error-retry button calls `handleSendMessage()` with an empty input, so a failed interview turn can't actually be retried; custom markdown renderer is home-grown (acceptable for prototype, would swap for `react-markdown` if features grow).
+- `StudyBuddy.tsx`: ~~error-retry button calls `handleSendMessage()` with an empty input, so a failed interview turn can't actually be retried~~ (fixed in `a18ff1a` — retry now re-invokes `sendInterviewRequest(messages)`); custom markdown renderer is home-grown (acceptable for prototype, would swap for `react-markdown` if features grow).
 - Model id `gemini-3.5-flash` needs verification against current Gemini model list (ai-engineer-learning-guide-26w).
 - No tests; `npm run lint` is just `tsc --noEmit`.
 
