@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { roadmapData } from "./data";
-import { UserProgress, Step, PremiumTeaser } from "./types";
+import { UserProgress, StoredProgress, PROGRESS_SCHEMA_VERSION, Step, PremiumTeaser } from "./types";
 import RoadmapCard from "./components/RoadmapCard";
 import StudyBuddy from "./components/StudyBuddy";
 import {
   Sparkles, Search, Award, BookMarked,
-  CheckCircle2, RefreshCw, ExternalLink, Lock
+  CheckCircle2, RefreshCw, ExternalLink, Lock, Download, Upload
 } from "lucide-react";
 
 const LOCAL_STORAGE_KEY = "ai_engineer_roadmap_progress";
@@ -16,8 +16,73 @@ const initialProgress: UserProgress = {
   quizScores: {}
 };
 
+// Parses and defensively validates a stored/imported progress blob. Accepts
+// both legacy blobs (no schemaVersion — treated as version 1) and versioned
+// ones. Drops malformed entries instead of crashing. Returns null if the
+// blob can't be parsed, isn't shaped like progress data, or was written by
+// a newer schema version than this app understands.
+function parseStoredProgress(raw: string): UserProgress | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+
+  if (!parsed || typeof parsed !== "object") return null;
+  const candidate = parsed as Partial<StoredProgress>;
+
+  // An arbitrary JSON object (e.g. the wrong file picked at import) must not
+  // pass validation as "empty progress" — require at least one progress field.
+  if (
+    candidate.completedTopicIds === undefined &&
+    candidate.bookmarkedUrls === undefined &&
+    candidate.quizScores === undefined
+  ) {
+    return null;
+  }
+
+  const schemaVersion = typeof candidate.schemaVersion === "number" ? candidate.schemaVersion : 1;
+  if (schemaVersion > PROGRESS_SCHEMA_VERSION) {
+    console.warn(
+      `Stored progress uses schema version ${schemaVersion}, newer than this app's supported version ${PROGRESS_SCHEMA_VERSION}. Ignoring stored data.`
+    );
+    return null;
+  }
+
+  const completedTopicIds = Array.isArray(candidate.completedTopicIds)
+    ? candidate.completedTopicIds.filter((id): id is string => typeof id === "string")
+    : [];
+
+  const bookmarkedUrls = Array.isArray(candidate.bookmarkedUrls)
+    ? candidate.bookmarkedUrls.filter((url): url is string => typeof url === "string")
+    : [];
+
+  const quizScores: UserProgress["quizScores"] = {};
+  if (candidate.quizScores && typeof candidate.quizScores === "object") {
+    Object.entries(candidate.quizScores).forEach(([topicId, val]) => {
+      if (
+        val &&
+        typeof val === "object" &&
+        typeof (val as any).score === "number" &&
+        typeof (val as any).total === "number" &&
+        typeof (val as any).date === "string"
+      ) {
+        quizScores[topicId] = {
+          score: (val as any).score,
+          total: (val as any).total,
+          date: (val as any).date
+        };
+      }
+    });
+  }
+
+  return { completedTopicIds, bookmarkedUrls, quizScores };
+}
+
 export default function App() {
   const [progress, setProgress] = useState<UserProgress>(initialProgress);
+  const importFileInputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"curriculum" | "bookmarks" | "practice">("curriculum");
   const [resourceFilter, setResourceFilter] = useState<"all" | "video" | "course" | "tutorial" | "docs">("all");
@@ -46,7 +111,13 @@ export default function App() {
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (stored) {
-        setProgress(JSON.parse(stored));
+        const parsed = parseStoredProgress(stored);
+        // If parsing fails (or the blob is from a future schema version)
+        // parseStoredProgress already warned/handled it — stay on the
+        // in-memory default and leave localStorage untouched.
+        if (parsed) {
+          setProgress(parsed);
+        }
       }
     } catch (e) {
       console.error("Failed to load local storage state:", e);
@@ -57,10 +128,53 @@ export default function App() {
   const saveProgress = (newProgress: UserProgress) => {
     setProgress(newProgress);
     try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newProgress));
+      const stored: StoredProgress = { schemaVersion: PROGRESS_SCHEMA_VERSION, ...newProgress };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stored));
     } catch (e) {
       console.error("Failed to save local storage state:", e);
     }
+  };
+
+  // Export current progress as a downloadable, versioned JSON file
+  const handleExportProgress = () => {
+    const stored: StoredProgress = { schemaVersion: PROGRESS_SCHEMA_VERSION, ...progress };
+    const blob = new Blob([JSON.stringify(stored, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    const today = new Date().toISOString().slice(0, 10);
+    anchor.href = url;
+    anchor.download = `ai-engineer-guide-progress-${today}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Trigger the hidden file input used for import
+  const handleImportClick = () => {
+    importFileInputRef.current?.click();
+  };
+
+  // Handle a selected import file: validate, confirm, then apply
+  const handleImportFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = typeof reader.result === "string" ? reader.result : "";
+      const parsed = parseStoredProgress(text);
+      if (!parsed) {
+        window.alert("This file is not a valid progress export.");
+      } else if (window.confirm("Importing will replace your current progress, bookmarks, and quiz scores. Continue?")) {
+        saveProgress(parsed);
+      }
+      input.value = "";
+    };
+    reader.onerror = () => {
+      window.alert("This file is not a valid progress export.");
+      input.value = "";
+    };
+    reader.readAsText(file);
   };
 
   // Toggle module/topic completion
@@ -209,13 +323,36 @@ export default function App() {
                 <span className="px-3 py-1 border border-[#1A1A1A] text-[10px] font-bold italic">PAYWALLS FLAGGED</span>
               </div>
             </div>
-            <button
-              onClick={handleResetProgress}
-              className="px-3.5 py-2 text-xs font-bold font-mono tracking-wider uppercase border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition flex items-center gap-1.5 text-[#1A1A1A]"
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              Reset Stats
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleExportProgress}
+                className="px-3.5 py-2 text-xs font-bold font-mono tracking-wider uppercase border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition flex items-center gap-1.5 text-[#1A1A1A]"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Export
+              </button>
+              <button
+                onClick={handleImportClick}
+                className="px-3.5 py-2 text-xs font-bold font-mono tracking-wider uppercase border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition flex items-center gap-1.5 text-[#1A1A1A]"
+              >
+                <Upload className="w-3.5 h-3.5" />
+                Import
+              </button>
+              <input
+                ref={importFileInputRef}
+                type="file"
+                accept="application/json,.json"
+                onChange={handleImportFileSelected}
+                className="hidden"
+              />
+              <button
+                onClick={handleResetProgress}
+                className="px-3.5 py-2 text-xs font-bold font-mono tracking-wider uppercase border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition flex items-center gap-1.5 text-[#1A1A1A]"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                Reset Stats
+              </button>
+            </div>
           </div>
         </div>
 

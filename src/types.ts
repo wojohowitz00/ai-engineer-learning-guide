@@ -43,6 +43,12 @@ export interface UserProgress {
   quizScores: Record<string, { score: number; total: number; date: string }>;
 }
 
+export const PROGRESS_SCHEMA_VERSION = 1;
+
+export interface StoredProgress extends UserProgress {
+  schemaVersion: number;
+}
+
 export interface QuizQuestion {
   question: string;
   options: string[];
