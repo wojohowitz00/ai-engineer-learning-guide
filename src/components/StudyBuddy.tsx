@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  X, Sparkles, BookOpen, HelpCircle, Briefcase, 
+import {
+  X, Sparkles, BookOpen, HelpCircle, Briefcase,
   Send, Copy, Check, RotateCcw, Award, ChevronRight,
-  Loader2, Terminal, AlertCircle
+  Loader2, Terminal, AlertCircle, AlertTriangle
 } from "lucide-react";
 import { Quiz, QuizQuestion } from "../types";
 
@@ -33,7 +33,11 @@ export default function StudyBuddy({
   const [mode, setMode] = useState<Mode>("explain");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
+  // Backend health: `null` means unknown (still loading, or the health
+  // check itself failed) — fail open and don't render the banner in that case.
+  const [health, setHealth] = useState<{ ok: boolean; hint?: string } | null>(null);
+
   // Explain Mode State
   const [explanation, setExplanation] = useState<string>("");
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -100,7 +104,9 @@ export default function StudyBuddy({
       setExplanation("");
       setQuiz(null);
       setError(null);
-      
+      setHealth(null);
+      checkHealth();
+
       // Initialize Interview messages
       setMessages([
         {
@@ -117,6 +123,23 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     }
   }, [isOpen, topicId]);
 
+  // API Call: Check LLM backend reachability. Network errors leave health
+  // as "unknown" (null) rather than "down" — fail open, don't block on this.
+  const checkHealth = async () => {
+    try {
+      const response = await fetch("/api/ai/health");
+      const data = await response.json();
+      setHealth({ ok: !!data.ok, hint: data.hint });
+    } catch {
+      setHealth(null);
+    }
+  };
+
+  // Surface the known-actionable cause (e.g. "start Ollama") ahead of a
+  // generic request-failure message, when the last health check was bad.
+  const prefixWithHealthHint = (message: string): string =>
+    health && !health.ok && health.hint ? `${health.hint} ${message}` : message;
+
   // API Call: Fetch Explanation
   const loadExplanation = async () => {
     setLoading(true);
@@ -132,7 +155,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
       if (data.error) throw new Error(data.error);
       setExplanation(data.content || "");
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+      setError(prefixWithHealthHint(err.message || "An unexpected error occurred."));
     } finally {
       setLoading(false);
     }
@@ -160,7 +183,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
       if (data.error) throw new Error(data.error);
       setQuiz(data);
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+      setError(prefixWithHealthHint(err.message || "An unexpected error occurred."));
     } finally {
       setLoading(false);
     }
@@ -188,7 +211,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
 
       setMessages([...history, { role: "assistant" as const, content: data.content || "" }]);
     } catch (err: any) {
-      setError(err.message || "Interviewer model failed to respond.");
+      setError(prefixWithHealthHint(err.message || "Interviewer model failed to respond."));
     } finally {
       setLoading(false);
     }
@@ -437,6 +460,21 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
 
             {/* Content Body */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              {health && !health.ok && (
+                <div className="p-3 flex items-start gap-2.5 bg-amber-100 border border-amber-800 text-amber-900 rounded-none">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div className="flex-1 space-y-1.5">
+                    <p className="text-xs font-mono leading-relaxed">{health.hint}</p>
+                    <button
+                      onClick={checkHealth}
+                      className="text-[10px] font-bold uppercase tracking-wider underline underline-offset-2 hover:no-underline"
+                    >
+                      Check again
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {error && (
                 <div className="p-4 rounded-xl border border-red-100 bg-red-50 text-red-700 flex items-start gap-3">
                   <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />

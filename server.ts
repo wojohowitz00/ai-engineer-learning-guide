@@ -88,6 +88,43 @@ function getAI(): OpenAI {
   return aiClient;
 }
 
+// Health check: lets the client show an actionable "backend unreachable"
+// banner instead of a generic 500 after a real request fails. A lightweight
+// models.list() call (bounded to 2.5s) is enough to prove the base URL is
+// reachable and auth (if any) is accepted, without spending a completion.
+// Cached for 30s so drawer opens don't hammer the backend or the rate limiter.
+type Provider = "ollama-local" | "ollama-cloud" | "openrouter" | "custom";
+const IS_LOCAL_OLLAMA = LLM_BASE_URL.includes("localhost:11434");
+const PROVIDER: Provider = IS_OLLAMA_CLOUD
+  ? "ollama-cloud"
+  : IS_OPENROUTER
+    ? "openrouter"
+    : IS_LOCAL_OLLAMA
+      ? "ollama-local"
+      : "custom";
+let healthCache: { data: { ok: boolean; provider: Provider; model: string; hint?: string }; fetchedAt: number } | null = null;
+
+app.get("/api/ai/health", async (_req, res) => {
+  if (healthCache && Date.now() - healthCache.fetchedAt < 30_000) {
+    res.json(healthCache.data);
+    return;
+  }
+  try {
+    await getAI().models.list({ signal: AbortSignal.timeout(2500) });
+    const data = { ok: true, provider: PROVIDER, model: MODEL };
+    healthCache = { data, fetchedAt: Date.now() };
+    res.json(data);
+  } catch (error) {
+    console.error("LLM health check failed:", error);
+    const hint = IS_LOCAL_OLLAMA
+      ? `Ollama isn't reachable at ${LLM_BASE_URL}. Start it with \`ollama serve\` and make sure the model is pulled (\`ollama pull ${MODEL}\`).`
+      : `The LLM provider at ${LLM_BASE_URL} isn't responding — check your API key and network.`;
+    const data = { ok: false, provider: PROVIDER, model: MODEL, hint };
+    healthCache = { data, fetchedAt: Date.now() };
+    res.json(data);
+  }
+});
+
 // Optional premium tier: when PREMIUM_SERVICE_URL is set, relay that service's
 // public teasers (title/promise/counts only — never gated content) so the
 // client can render locked previews. Server-side fetch, so no CORS needed.
