@@ -22,7 +22,7 @@ Executes the modified mobile goal: iOS/iPadOS + Android + web/mobile web from on
 
 | # | Item | Type / Pri | SWOT source | Issue |
 |---|---|---|---|---|
-| 2.1 | Spike: Capacitor wrap of the React app; debug builds for iOS + Android; go/no-go verdict vs React Native | feature / P1 | §10 recommendation: one codebase for all four surfaces | `ai-engineer-learning-guide-abj` |
+| 2.1 | Spike: Capacitor wrap of the React app; iOS simulator build; go/no-go verdict vs React Native (Android validation deferred to 4.5 per 2026-07-31 decision) | feature / P1 | §10 recommendation: one codebase for all four surfaces | `ai-engineer-learning-guide-abj` |
 | 2.2 | Hosted LLM backend story for mobile (Ollama Cloud path, cost controls) | task / P2 | §10 weakness: phones can't reach `localhost:11434` | `ai-engineer-learning-guide-v9a` |
 | 2.3 | Decide the fate of the native SwiftUI iOS app (after 2.1's verdict) | task / P2 | §10 threat: per-platform native UIs are unsustainable solo | `ai-engineer-learning-guide-7vj` |
 | 2.4 | Mobile-web layout audit and polish (filter bar, drawer, tap targets) | task / P3 | §8/§10: desktop-shaped controls at phone widths | `ai-engineer-learning-guide-sa6` |
@@ -52,6 +52,7 @@ Independent quality-of-life work; start anytime after Phase 1.
 | 4.2 | Replace home-grown markdown renderer with react-markdown | task / P3 | §5 weakness: renderer is a growing liability | `ai-engineer-learning-guide-8j3` |
 | 4.3 | Capstone starter scaffolding + shareable completion artifact | feature / P3 | §4 weakness: capstone is copy-only; keep the free tier substantive | `ai-engineer-learning-guide-tx5` |
 | 4.4 | Interactive Depth Zero on-ramp checklist | feature / P4 | §2 weakness: no feedback loop on the day-one ship | `ai-engineer-learning-guide-bkd` |
+| 4.5 | Capacitor Android build validation (deferred from 2.1; blocked by it) | task / P4 | §10: Android half of the cross-platform goal | `ai-engineer-learning-guide-va0` |
 
 ## Explicitly deferred (from the SWOT, no issue filed)
 
