@@ -14,3 +14,13 @@ coverage/
 
 # Third-party video transcript kept as local reference only — do not republish
 How I*d Learn AI in 2026 From Scratch*.txt
+
+# Capacitor / Xcode build artifacts (ios/ spike — ai-engineer-learning-guide-abj)
+ios/App/build/
+ios/App/DerivedData/
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+ios/App/App/public/
+ios/App/CapApp-SPM/.build/
+DerivedData/
+*.xcuserstate
