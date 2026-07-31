@@ -116,6 +116,34 @@ Three mechanisms are live in `server.ts`:
   hosted provider's own spend caps/credit limits, not just this server's
   in-process limiter).
 
+## 3b. Building the native (Capacitor) client
+
+A Capacitor build loads the client from `capacitor://localhost` (iOS) or
+`http://localhost` (Android). Relative `/api/` paths therefore have no server
+behind them, so the native bundle needs this server's absolute origin baked in:
+
+```bash
+VITE_API_BASE_URL="https://your-api-host" npm run build
+npx cap sync ios
+```
+
+`VITE_API_BASE_URL` is read by Vite and **inlined at build time** — setting it
+at `npm start` does nothing, and changing it requires a rebuild plus another
+`cap sync`. Leave it unset for web builds: `src/api.ts` checks
+`Capacitor.isNativePlatform()` at runtime and keeps paths relative on the web,
+so one build is correct for both targets.
+
+The server allows the two fixed webview origins (`capacitor://localhost`,
+`http://localhost`) for `/api/` automatically; `ALLOWED_ORIGINS` is only needed
+for extra staging hosts. Verified 2026-07-31 on an iOS 26.5 simulator: the
+webview sends `Origin: capacitor://localhost` exactly.
+
+For local development the simulator shares the host's network stack, so
+`VITE_API_BASE_URL="http://localhost:3000"` reaches a server running on the
+Mac. A physical device needs a routable origin instead — and because App
+Transport Security blocks cleartext HTTP to non-loopback hosts, that origin
+must be HTTPS.
+
 ## 4. Deploying: checklist
 
 1. **Build**: `npm run build` — Vite builds the client to `dist/client/`, esbuild

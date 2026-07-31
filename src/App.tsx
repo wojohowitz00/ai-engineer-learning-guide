@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { roadmapData } from "./data";
+import { apiUrl } from "./api";
 import { UserProgress, StoredProgress, PROGRESS_SCHEMA_VERSION, Step, PremiumTeaser } from "./types";
 import RoadmapCard from "./components/RoadmapCard";
 import StudyBuddy from "./components/StudyBuddy";
@@ -96,7 +97,7 @@ export default function App() {
   const [premiumTeasers, setPremiumTeasers] = useState<Record<number, PremiumTeaser>>({});
 
   useEffect(() => {
-    fetch("/api/premium/teasers")
+    fetch(apiUrl("/api/premium/teasers"))
       .then(res => (res.ok ? res.json() : { modules: [] }))
       .then((data: { modules?: PremiumTeaser[] }) => {
         const byStep: Record<number, PremiumTeaser> = {};

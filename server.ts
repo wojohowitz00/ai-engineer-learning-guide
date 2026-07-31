@@ -13,6 +13,47 @@ const PORT = 3000;
 
 app.use(express.json({ limit: "256kb" }));
 
+// Native Capacitor builds serve the client from a webview origin rather than
+// from this server, so their /api calls are cross-origin. Allow exactly those
+// two fixed webview origins, plus anything explicitly named in ALLOWED_ORIGINS
+// (comma-separated) for staging hosts. The web build is same-origin and never
+// sends an Origin header we need to answer.
+//
+// Deliberately an exact-match allowlist: no wildcards, no reflecting arbitrary
+// origins, and no Access-Control-Allow-Credentials — the API is stateless and
+// has no cookies to protect, so there is nothing to gain by loosening this.
+const ALLOWED_ORIGINS = new Set([
+  "capacitor://localhost", // iOS
+  "http://localhost", // Android
+  ...(process.env.ALLOWED_ORIGINS ?? "")
+    .split(",")
+    .map(origin => origin.trim())
+    .filter(Boolean),
+]);
+
+// Registered before the rate limiter on purpose. Every JSON POST from the
+// webview is preceded by a CORS preflight, so counting OPTIONS against the
+// 20/min budget would halve the usable request rate for native clients.
+app.use("/api/", (req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Max-Age", "86400");
+  }
+  // Always vary on Origin: the response body is identical either way, but the
+  // headers are not, so a shared cache must not serve one origin's response
+  // to another.
+  res.setHeader("Vary", "Origin");
+
+  if (req.method === "OPTIONS") {
+    res.sendStatus(204);
+    return;
+  }
+  next();
+});
+
 // LLM endpoints are metered upstream — cap per-client request rate.
 app.use(
   "/api/",

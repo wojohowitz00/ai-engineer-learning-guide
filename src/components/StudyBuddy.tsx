@@ -6,6 +6,7 @@ import {
   Loader2, Terminal, AlertCircle, AlertTriangle
 } from "lucide-react";
 import { Quiz, QuizQuestion } from "../types";
+import { apiUrl } from "../api";
 
 interface StudyBuddyProps {
   isOpen: boolean;
@@ -127,7 +128,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
   // as "unknown" (null) rather than "down" — fail open, don't block on this.
   const checkHealth = async () => {
     try {
-      const response = await fetch("/api/ai/health");
+      const response = await fetch(apiUrl("/api/ai/health"));
       const data = await response.json();
       setHealth({ ok: !!data.ok, hint: data.hint });
     } catch {
@@ -145,7 +146,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/ai/explain", {
+      const response = await fetch(apiUrl("/api/ai/explain"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, stepTitle, whenYouNeedThis })
@@ -173,7 +174,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setQuizFinished(false);
 
     try {
-      const response = await fetch("/api/ai/quiz", {
+      const response = await fetch(apiUrl("/api/ai/quiz"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicTitle, topicId })
@@ -196,7 +197,7 @@ To start, how would you define **${topicTitle}** to a data scientist who is tran
     setError(null);
 
     try {
-      const response = await fetch("/api/ai/interview", {
+      const response = await fetch(apiUrl("/api/ai/interview"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
