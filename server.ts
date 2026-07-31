@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
 import { rateLimit } from "express-rate-limit";
+import { roadmapData } from "./src/data";
 
 dotenv.config();
 
@@ -93,6 +94,14 @@ function getAI(): OpenAI {
 // Unset or unreachable → empty list, and the client hides the teaser UI.
 const PREMIUM_SERVICE_URL = process.env.PREMIUM_SERVICE_URL;
 let teaserCache: { data: unknown; fetchedAt: number } | null = null;
+
+// Client-neutral curriculum API — same payload shape as
+// scripts/export-curriculum.ts ({ steps: roadmapData }), so non-web clients
+// (e.g. the iOS app) can fetch the latest content without an app release.
+app.get("/api/curriculum", (_req, res) => {
+  res.set("Cache-Control", "public, max-age=300");
+  res.json({ steps: roadmapData });
+});
 
 app.get("/api/premium/teasers", async (_req, res) => {
   if (!PREMIUM_SERVICE_URL) {
