@@ -80,7 +80,11 @@ export default function RoadmapCard({
               <p className="text-[10px] font-bold font-mono text-[#3E5C76] uppercase tracking-widest mb-1">Your Project This Step</p>
               <p className="text-sm text-neutral-700 leading-relaxed">{step.capstone}</p>
 
-              {/* Locked premium teaser: marketing data only, hidden when no premium service is configured */}
+              {/* Locked premium teaser: marketing data only, hidden when no premium service is configured.
+                  Deliberately nested inside the capstone block — the premium module is the guided
+                  version of this step's capstone project, so it reads as a continuation of it. A step
+                  with a teaser but no capstone therefore shows no teaser, which is intended: the offer
+                  has nothing to attach to. Don't hoist this out without revisiting that. */}
               {premiumTeaser && (
                 <div className="mt-2.5 pt-2.5 border-t border-[#1A1A1A]/15 flex items-start gap-2">
                   <Lock className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />

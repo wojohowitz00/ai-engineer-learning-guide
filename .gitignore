@@ -24,3 +24,4 @@ ios/App/App/public/
 ios/App/CapApp-SPM/.build/
 DerivedData/
 *.xcuserstate
+.gstack/

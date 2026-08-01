@@ -62,17 +62,28 @@ function parseStoredProgress(raw: string): UserProgress | null {
   const quizScores: UserProgress["quizScores"] = {};
   if (candidate.quizScores && typeof candidate.quizScores === "object") {
     Object.entries(candidate.quizScores).forEach(([topicId, val]) => {
+      const record = val as { score?: unknown; total?: unknown; date?: unknown } | null;
       if (
-        val &&
-        typeof val === "object" &&
-        typeof (val as any).score === "number" &&
-        typeof (val as any).total === "number" &&
-        typeof (val as any).date === "string"
+        record &&
+        typeof record === "object" &&
+        typeof record.score === "number" &&
+        typeof record.total === "number" &&
+        typeof record.date === "string" &&
+        // Range checks, not just type checks. The history view renders
+        // Math.round(score / total * 100), so a record that is well-typed but
+        // out of range still reaches the UI as "NaN%", "Infinity%", "167%" or
+        // "-33%" — and anything >= 80 picks up the green "passed" styling.
+        // Drop such records the same way malformed ones above are dropped.
+        Number.isFinite(record.score) &&
+        Number.isFinite(record.total) &&
+        record.total > 0 &&
+        record.score >= 0 &&
+        record.score <= record.total
       ) {
         quizScores[topicId] = {
-          score: (val as any).score,
-          total: (val as any).total,
-          date: (val as any).date
+          score: record.score,
+          total: record.total,
+          date: record.date,
         };
       }
     });
