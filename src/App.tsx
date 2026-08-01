@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { roadmapData } from "./data";
 import { apiUrl } from "./api";
+import { loadStoredProgress, saveStoredProgress } from "./storage";
 import { UserProgress, StoredProgress, PROGRESS_SCHEMA_VERSION, Step, PremiumTeaser } from "./types";
 import RoadmapCard from "./components/RoadmapCard";
 import StudyBuddy from "./components/StudyBuddy";
@@ -8,8 +9,6 @@ import {
   Sparkles, Search, Award, BookMarked,
   CheckCircle2, RefreshCw, ExternalLink, Lock, Download, Upload
 } from "lucide-react";
-
-const LOCAL_STORAGE_KEY = "ai_engineer_roadmap_progress";
 
 const initialProgress: UserProgress = {
   completedTopicIds: [],
@@ -94,6 +93,9 @@ function parseStoredProgress(raw: string): UserProgress | null {
 
 export default function App() {
   const [progress, setProgress] = useState<UserProgress>(initialProgress);
+  // False until stored progress has been read. Gates the first paint so the
+  // dashboard never shows 0% and then jumps to the real figure.
+  const [hydrated, setHydrated] = useState(false);
   const importFileInputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"curriculum" | "bookmarks" | "practice">("curriculum");
@@ -118,33 +120,41 @@ export default function App() {
       .catch(() => { /* premium teasers are optional — stay hidden */ });
   }, []);
 
-  // Load progress from LocalStorage
+  // Load stored progress. Unlike localStorage this is async, so the first
+  // paint is gated on it (see `hydrated` below) — otherwise a user with real
+  // progress watches the dashboard read 0% and then correct itself on every
+  // single launch, which reads as "my progress is gone".
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
+    let cancelled = false;
+    loadStoredProgress()
+      .then(stored => {
+        if (cancelled || !stored) return;
         const parsed = parseStoredProgress(stored);
         // If parsing fails (or the blob is from a future schema version)
         // parseStoredProgress already warned/handled it — stay on the
-        // in-memory default and leave localStorage untouched.
-        if (parsed) {
-          setProgress(parsed);
-        }
-      }
-    } catch (e) {
-      console.error("Failed to load local storage state:", e);
-    }
+        // in-memory default and leave the stored value untouched.
+        if (parsed) setProgress(parsed);
+      })
+      .catch(e => {
+        console.error("Failed to load stored progress:", e);
+      })
+      .finally(() => {
+        // Always release the gate. A storage failure must not leave the user
+        // staring at a blank screen — defaults are a worse outcome than their
+        // real progress, but an app that never renders is worse than both.
+        if (!cancelled) setHydrated(true);
+      });
+    return () => { cancelled = true; };
   }, []);
 
-  // Save progress to LocalStorage
+  // Persist progress. Kept synchronous from the caller's point of view — the
+  // write is fire-and-forget so every handler below stays unchanged.
   const saveProgress = (newProgress: UserProgress) => {
     setProgress(newProgress);
-    try {
-      const stored: StoredProgress = { schemaVersion: PROGRESS_SCHEMA_VERSION, ...newProgress };
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stored));
-    } catch (e) {
-      console.error("Failed to save local storage state:", e);
-    }
+    const stored: StoredProgress = { schemaVersion: PROGRESS_SCHEMA_VERSION, ...newProgress };
+    void saveStoredProgress(JSON.stringify(stored)).catch(e => {
+      console.error("Failed to save progress:", e);
+    });
   };
 
   // Export current progress as a downloadable, versioned JSON file
@@ -302,9 +312,17 @@ export default function App() {
     };
   }).filter(step => step.topics.length > 0);
 
+  // Hold the first paint until stored progress has been read. Deliberately an
+  // empty page in the app's own background colour rather than a spinner: the
+  // read is a single key lookup, so anything more elaborate would flash on and
+  // straight back off. On native the launch screen is still up at this point.
+  if (!hydrated) {
+    return <div className="min-h-screen bg-[#FDFCF8]" aria-busy="true" />;
+  }
+
   return (
     <div className="min-h-screen bg-[#FDFCF8] text-[#1A1A1A] pb-20 selection:bg-[#3E5C76]/20 selection:text-[#1A1A1A] font-sans">
-      
+
       {/* Top Editorial Accent Bar */}
       <div className="h-2 w-full bg-[#1A1A1A]" />
 
