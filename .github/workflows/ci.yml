@@ -18,3 +18,7 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npx tsx scripts/export-curriculum.ts /tmp/curriculum.json
+      # Backend smoke tests. Needs no LLM key: validation short-circuits before
+      # any model call, and /api/ai/health returns a well-formed { ok: false }
+      # when no provider is reachable — which is the case here.
+      - run: npm run smoke

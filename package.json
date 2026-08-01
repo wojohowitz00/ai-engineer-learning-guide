@@ -10,7 +10,8 @@
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "export-curriculum": "tsx scripts/export-curriculum.ts ../ai-engineer-learning-guide-ios/AIEngineerGuide/Resources/curriculum.json"
+    "export-curriculum": "tsx scripts/export-curriculum.ts ../ai-engineer-learning-guide-ios/AIEngineerGuide/Resources/curriculum.json",
+    "smoke": "tsx scripts/smoke-test.ts"
   },
   "dependencies": {
     "@capacitor/core": "^8.4.2",
